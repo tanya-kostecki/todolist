@@ -7,7 +7,6 @@ type TodoListPropsType = {
   removeTasks: (id: string) => void;
   changeFilter: (value: FilterValuesType) => void;
   title: string;
-  removeAllTasks: () => void;
   addTask: (title: string) => void;
   changeTaskStatus: (taskId: string, taskStatus: boolean) => void;
   filter: string;
@@ -17,8 +16,9 @@ export function TodoList(props: TodoListPropsType) {
   const [error, setError] = useState<string | null>(null);
 
   const addTaskHandler = () => {
-    if (newTaskTitle.trim() !== "") {
-      props.addTask(newTaskTitle.trim());
+    const trimmedTitle = newTaskTitle.trim()
+    if (trimmedTitle !== "") {
+      props.addTask(trimmedTitle);
       setNewTaskTitle("");
     } else {
       setError("Title is required");
@@ -36,10 +36,6 @@ export function TodoList(props: TodoListPropsType) {
 
   const changeFilterTaskHandler = (filter: FilterValuesType) => {
     props.changeFilter(filter);
-  };
-
-  const removeAllTasksHandler = () => {
-    props.removeAllTasks();
   };
 
   return (
@@ -85,8 +81,6 @@ export function TodoList(props: TodoListPropsType) {
           })}
         </ul>
       )}
-
-      <Button title="Delete All Tasks" onClick={removeAllTasksHandler} />
 
       <div>
         <Button
