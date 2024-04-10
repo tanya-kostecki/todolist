@@ -1,71 +1,70 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from "react";
+import React, { ChangeEvent } from "react";
 import { FilterValuesType, TaskType } from "../../App";
 import { Button } from "../button/Button";
+import { AddItemForm } from "../AddItemForm";
+import { EditableSpan } from "../EditableSpan";
 
 type TodoListPropsType = {
-  todolistID: string
+  todolistID: string;
   tasks: TaskType[];
   removeTasks: (todolistID: string, id: string) => void;
   changeFilter: (todolistID: string, value: FilterValuesType) => void;
   title: string;
   addTask: (todolistID: string, title: string) => void;
-  changeTaskStatus: (todolistID: string, taskId: string, taskStatus: boolean) => void;
+  changeTaskStatus: (
+    todolistID: string,
+    taskId: string,
+    taskStatus: boolean
+  ) => void;
   filter: string;
-  removeTodolist: (todolistID: string) => void
+  removeTodolist: (todolistID: string) => void;
+
+  updateTaskTitle: (
+    todoListID: string,
+    taskID: string,
+    newTitle: string
+  ) => void;
+  updateTodolistTitle: (todolistID: string, newTitle: string) => void;
 };
 export function TodoList(props: TodoListPropsType) {
-  const [newTaskTitle, setNewTaskTitle] = useState<string>("");
-  const [error, setError] = useState<string | null>(null);
-
-  const addTaskHandler = () => {
-    const trimmedTitle = newTaskTitle.trim()
-    if (trimmedTitle !== "") {
-      props.addTask(props.todolistID, trimmedTitle);
-      setNewTaskTitle("");
-    } else {
-      setError("Title is required");
-    }
-  };
-
-  const changeTaskTitle = (event: ChangeEvent<HTMLInputElement>) => {
-    setNewTaskTitle(event.currentTarget.value);
-  };
-
-  const addTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    setError(null);
-    if (event.key === "Enter") addTaskHandler();
-  };
-
   const changeFilterTaskHandler = (filter: FilterValuesType) => {
     props.changeFilter(props.todolistID, filter);
   };
 
   const removeTodolistHandler = () => {
-    props.removeTodolist(props.todolistID)
-  }
+    props.removeTodolist(props.todolistID);
+  };
+
+  const addTaskHandler = (title: string) => {
+    props.addTask(props.todolistID, title);
+  };
+
+  const updateTaskTitleHandler = (taskID: string, newTitle: string) => {
+    props.updateTaskTitle(props.todolistID, taskID, newTitle);
+  };
+
+  const updateTodolistTitleHandler = (newTitle: string) => {
+    props.updateTodolistTitle(props.todolistID, newTitle);
+  };
 
   return (
     <div>
-      <h3>{props.title}
-        <Button title="x" onClick={removeTodolistHandler}/>
-      </h3>
-      <div>
-        <input
-          className={error ? "error" : ""}
-          value={newTaskTitle}
-          onChange={changeTaskTitle}
-          onKeyUp={addTaskOnEnterHandler}
+      <h3>
+        <EditableSpan
+          oldTitle={props.title}
+          updateTitle={updateTodolistTitleHandler}
         />
-        <Button title="+" onClick={addTaskHandler} />
-        {error && <div className="error-message">{error}</div>}
-      </div>
+        <Button title="x" onClick={removeTodolistHandler} />
+      </h3>
+      <AddItemForm addItem={addTaskHandler} />
+
       {!props.tasks.length ? (
         <p>No tasks</p>
       ) : (
         <ul>
           {props.tasks.map((task) => {
             const removeTaskHandler = () => {
-              props.removeTasks(props.todolistID,task.id);
+              props.removeTasks(props.todolistID, task.id);
             };
 
             const changeTaskStatusHandler = (
@@ -82,7 +81,12 @@ export function TodoList(props: TodoListPropsType) {
                   checked={task.isDone}
                   onChange={changeTaskStatusHandler}
                 />
-                <span>{task.title}</span>
+                <EditableSpan
+                  oldTitle={task.title}
+                  updateTitle={(newTitle: string) =>
+                    updateTaskTitleHandler(task.id, newTitle)
+                  }
+                />
                 <Button onClick={removeTaskHandler} title={"x"} />
               </li>
             );
