@@ -3,6 +3,21 @@ import './App.css';
 import { TodoList } from './components/todolist/TodoList';
 import { v1 } from 'uuid';
 import { AddItemForm } from "./components/AddItemForm";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import { FilterButtonContainerSx } from './components/todolist/Todolist.styles';
+import { MenuButton } from './components/MenuButton';
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import Switch from '@mui/material/Switch'
+import CssBaseline from '@mui/material/CssBaseline'
+ 
+type ThemeMode = 'dark' | 'light'
+
 export type TodolistType = {
   id: string;
   title: string;
@@ -109,36 +124,80 @@ function App() {
     );
   };
 
-  return (
-    <div className="App">
-      <AddItemForm addItem={addTodolist} />
-      {todolists.map((tl) => {
-        let filteredTasks = tasks[tl.id];
-        if (tl.filter === "completed") {
-          filteredTasks = tasks[tl.id].filter((task) => task.isDone === true);
-        }
+  const [themeMode, setThemeMode] = useState<ThemeMode>('light')
 
-        if (tl.filter === "active") {
-          filteredTasks = tasks[tl.id].filter((task) => task.isDone === false);
-        }
-        return (
-          <TodoList
-            key={tl.id}
-            todolistID={tl.id}
-            tasks={filteredTasks}
-            title={tl.title}
-            removeTasks={removeTasks}
-            changeFilter={changeFilter}
-            filter={tl.filter}
-            addTask={addTask}
-            changeTaskStatus={changeTaskStatus}
-            removeTodolist={removeTodolist}
-            updateTaskTitle={updateTaskTitle}
-            updateTodolistTitle={updateTodolistTitle}
-          />
-        );
-      })}
-    </div>
+  const theme = createTheme({
+    palette: {
+      mode: themeMode === 'light' ? 'light' : 'dark',
+      primary: {
+        main: '#087EA4'
+      }
+    },
+  });
+
+  const changeModeHandler = () => {
+    setThemeMode(themeMode === 'light' ? 'dark' : 'light')
+  }
+
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppBar position="static" sx={{mb: '30px'}}>
+        <Toolbar sx={FilterButtonContainerSx}>
+          <IconButton color="inherit">
+            <MenuIcon />
+          </IconButton>
+          <div>
+            <MenuButton background={theme.palette.primary.dark}>Login</MenuButton>
+            <MenuButton background={theme.palette.primary.dark}>Logout</MenuButton>
+            <MenuButton background={theme.palette.primary.light}>Faq</MenuButton>
+            <Switch color={'default'} onChange={changeModeHandler} />
+          </div>
+        </Toolbar>
+      </AppBar>
+
+      <Container fixed>
+        <Grid container sx={{mb: '30px'}}>
+          <AddItemForm addItem={addTodolist} />
+        </Grid>
+        <Grid container spacing={4}>
+          {todolists.map((tl) => {
+            let filteredTasks = tasks[tl.id];
+            if (tl.filter === "completed") {
+              filteredTasks = tasks[tl.id].filter(
+                (task) => task.isDone === true
+              );
+            }
+
+            if (tl.filter === "active") {
+              filteredTasks = tasks[tl.id].filter(
+                (task) => task.isDone === false
+              );
+            }
+            return (
+              <Grid item>
+                <Paper elevation={5} sx={{p: '20px'}}>
+                  <TodoList
+                    key={tl.id}
+                    todolistID={tl.id}
+                    tasks={filteredTasks}
+                    title={tl.title}
+                    removeTasks={removeTasks}
+                    changeFilter={changeFilter}
+                    filter={tl.filter}
+                    addTask={addTask}
+                    changeTaskStatus={changeTaskStatus}
+                    removeTodolist={removeTodolist}
+                    updateTaskTitle={updateTaskTitle}
+                    updateTodolistTitle={updateTodolistTitle}
+                  />
+                </Paper>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Container>
+    </ThemeProvider>
   );
 }
 

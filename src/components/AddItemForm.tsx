@@ -1,5 +1,7 @@
 import React, { useState, ChangeEvent, KeyboardEvent } from "react";
-import { Button } from "./button/Button";
+import TextField from "@mui/material/TextField";
+import AddBoxIcon from '@mui/icons-material/AddBox'
+import IconButton from '@mui/material/IconButton'
 
 type AddItemFormProps = {
   addItem: (title: string) => void;
@@ -8,7 +10,7 @@ export const AddItemForm = (props: AddItemFormProps) => {
   const [newTaskTitle, setNewTaskTitle] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
-  const addTaskHandler = () => {
+  const addItemHandler = () => {
     const trimmedTitle = newTaskTitle.trim();
     if (trimmedTitle !== "") {
       props.addItem(trimmedTitle);
@@ -22,20 +24,27 @@ export const AddItemForm = (props: AddItemFormProps) => {
     setNewTaskTitle(event.currentTarget.value);
   };
 
-  const addTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+  const addItemOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
     setError(null);
-    if (event.key === "Enter") addTaskHandler();
+    if (event.key === "Enter") addItemHandler();
   };
+
   return (
     <div>
-      <input
+      <TextField
+        label="Enter a title"
+        variant={"outlined"}
         className={error ? "error" : ""}
+        error={!!error}
         value={newTaskTitle}
+        size={"small"}
         onChange={changeTaskTitle}
-        onKeyUp={addTaskOnEnterHandler}
+        onKeyUp={addItemOnEnterHandler}
+        helperText={error}
       />
-      <Button title="+" onClick={addTaskHandler} />
-      {error && <div className="error-message">{error}</div>}
+      <IconButton onClick={addItemHandler} color={'primary'}>
+        <AddBoxIcon />
+      </IconButton>
     </div>
   );
 };
