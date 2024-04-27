@@ -1,6 +1,5 @@
 import React, { ChangeEvent } from "react";
 import { FilterValuesType, TaskType } from "../../App";
-// import { Button } from "../button/Button";
 import { AddItemForm } from "../AddItemForm";
 import { EditableSpan } from "../EditableSpan";
 import IconButton from "@mui/material/IconButton";
@@ -11,7 +10,6 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { Box } from "@mui/material";
 import { FilterButtonContainerSx, getListItemSx } from "./Todolist.styles";
-
 
 type TodoListPropsType = {
   todolistID: string;
@@ -36,6 +34,7 @@ type TodoListPropsType = {
   updateTodolistTitle: (todolistID: string, newTitle: string) => void;
 };
 export function TodoList(props: TodoListPropsType) {
+
   const changeFilterTaskHandler = (filter: FilterValuesType) => {
     props.changeFilter(props.todolistID, filter);
   };

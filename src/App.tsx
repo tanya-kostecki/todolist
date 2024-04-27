@@ -175,10 +175,10 @@ function App() {
               );
             }
             return (
-              <Grid item>
+              <Grid item key={tl.id}>
                 <Paper elevation={5} sx={{p: '20px'}}>
                   <TodoList
-                    key={tl.id}
+                    // key={tl.id}
                     todolistID={tl.id}
                     tasks={filteredTasks}
                     title={tl.title}
