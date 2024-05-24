@@ -1,7 +1,7 @@
 import { v1 } from "uuid";
 import { TaskStateType } from "../App";
 import { AddTodolistActionType, RemoveTodolistActionType } from "./todolists-reducer";
-// import { todolistID1, todolistID2 } from "./todolists-reducer";
+import { todolistID1, todolistID2 } from "./todolists-reducer";
 
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;
 
@@ -31,12 +31,13 @@ type ActionsType =
 //     { id: v1(), title: "GraphQL", isDone: false },
 //   ],
 // };
+
 const initialState: TaskStateType = {};
 
 export const tasksReducer = (
-  state = initialState,
+  state: TaskStateType = initialState,
   action: ActionsType
-): TaskStateType => {
+): TaskStateType  => {
   switch (action.type) {
     case "REMOVE-TASK": {
       return {
@@ -88,7 +89,6 @@ export const tasksReducer = (
   }
 };
 
-//AC = action creators
 export const removeTaskAC = (todolistId: string, taskId: string) => {
   return {
     type: "REMOVE-TASK",
@@ -138,3 +138,4 @@ export const changeTaskStatusAC = (
     },
   } as const;
 };
+

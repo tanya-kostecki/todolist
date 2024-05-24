@@ -7,7 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { TaskType } from '../../App';
 
-type TaskPropsType = {
+export type TaskPropsType = {
     task: TaskType
     todolistID: string
     removeTasks: (todolistID: string, id: string) => void;

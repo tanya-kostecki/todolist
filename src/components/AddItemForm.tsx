@@ -3,7 +3,7 @@ import TextField from "@mui/material/TextField";
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import IconButton from '@mui/material/IconButton'
 
-type AddItemFormProps = {
+export type AddItemFormProps = {
   addItem: (title: string) => void;
 };
 export const AddItemForm = memo((props: AddItemFormProps) => {
