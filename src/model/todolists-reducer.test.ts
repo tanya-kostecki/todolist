@@ -1,11 +1,18 @@
-import { addTodolistAC, changeFilterAC, removeTodolistAC, todolistsReducer, updateTodolistTitleAC } from "./todolists-reducer"
+import {
+    addTodolistAC,
+    changeFilterAC,
+    removeTodolistAC,
+    TodolistDomainType,
+    todolistsReducer,
+    updateTodolistTitleAC
+} from "./todolists-reducer"
 import { v1 } from "uuid"
-import { TodolistType } from "../App"
+import { TodolistType } from "../AppLesson"
 
 let todolistId1: string
 let todolistId2: string
 
-let startState: TodolistType[]
+let startState: TodolistDomainType[]
 
 beforeEach(() => {
   todolistId1 = v1()
@@ -13,8 +20,8 @@ beforeEach(() => {
 
   //start state
   startState = [
-    { id: todolistId1, title: 'What to learn', filter: 'all' },
-    { id: todolistId2, title: 'What to buy', filter: 'all' },
+    { id: todolistId1, title: 'What to learn', filter: 'all', addedDate: '26-02-23', order: 0 },
+    { id: todolistId2, title: 'What to buy', filter: 'all', addedDate: '26-02-23', order: 0 },
   ]
 })
 
@@ -31,7 +38,7 @@ test('correct todolist should be added', () => {
    
     //expected results
     expect(endState.length).toBe(3)
-    expect(endState[2].title).toBe('New Todolist')
+    expect(endState[0].title).toBe('New Todolist')
 })
 
 test('correct todolist should change its name', () => {

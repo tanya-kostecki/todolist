@@ -2,6 +2,7 @@ import {Meta, StoryObj} from "@storybook/react";
 import {Task} from "../components/todolist/Task";
 import {fn} from "@storybook/test";
 import {useState} from "react";
+import {TaskPriorities, TaskStatuses} from "../api/api";
 
 const meta: Meta<typeof Task> = {
     title: 'TODOLISTS/Task',
@@ -11,7 +12,19 @@ const meta: Meta<typeof Task> = {
     },
     tags: ['autodocs'],
     args: {
-        task: {id: '1234', title: 'Task1', isDone: true},
+        // task: {id: '1234', title: 'Task1', isDone: true},
+        task: {
+            description: '',
+            title: 'Task1',
+            status: TaskStatuses.New,
+            priority: TaskPriorities.Low,
+            startDate: '',
+            deadline: '',
+            id: '1234',
+            todoListId: 'todolistID1',
+            order: 0,
+            addedDate: ''
+        },
         todolistID: 'todolist1',
         removeTasks: fn(),
         changeTaskStatus: fn(),
@@ -26,7 +39,19 @@ export const TaskIsDoneStory: Story = {}
 
 export const TaskIsNotDoneStory: Story = {
     args: {
-        task: {id: '1234', title: 'Task1', isDone: false},
+        // task: {id: '1234', title: 'Task1', isDone: false},
+        task: {
+            description: '',
+            title: 'Task1',
+            status: TaskStatuses.New,
+            priority: TaskPriorities.Low,
+            startDate: '',
+            deadline: '',
+            id: '1234',
+            todoListId: 'todolistID1',
+            order: 0,
+            addedDate: ''
+        },
     }
 }
 
@@ -35,7 +60,7 @@ export const TaskToggleStory: Story = {
         const [task, setTask] = useState(args.task)
 
         function changeTaskStatus() {
-            setTask({...task, isDone: !task.isDone})
+            setTask({...task, status: TaskStatuses.Completed})
         }
 
         function updateTaskTitle(todolistId: string, taskId: string, newTitle: string) {

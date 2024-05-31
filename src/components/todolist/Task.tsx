@@ -1,11 +1,10 @@
-import React, {useCallback, ChangeEvent, memo} from 'react'
-import ListItem from '@mui/material/ListItem';
+import React, {ChangeEvent, memo, useCallback} from 'react'
 import Checkbox from "@mui/material/Checkbox";
-import {getListItemSx } from "./Todolist.styles";
-import { EditableSpan } from '../EditableSpan';
+import {EditableSpan} from '../EditableSpan';
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { TaskType } from '../../App';
+import {TaskType} from "../../api/api";
+import {TaskStatuses} from "../../api/api";
 
 export type TaskPropsType = {
     task: TaskType
@@ -14,7 +13,7 @@ export type TaskPropsType = {
     changeTaskStatus: (
         todolistID: string,
         taskId: string,
-        taskStatus: boolean
+        taskStatus: TaskStatuses
     ) => void;
     updateTaskTitle: (
         todoListID: string,
@@ -39,15 +38,15 @@ export const Task = memo(({task, todolistID, changeTaskStatus, updateTaskTitle, 
         changeTaskStatus(
           todolistID,
           task.id,
-          newTaskStatus
+          newTaskStatus ? TaskStatuses.Completed : TaskStatuses.New
         );
     };
 
     return (
-        <ListItem sx={getListItemSx(task.isDone)}>
+
           <div>
             <Checkbox
-              checked={task.isDone}
+              checked={task.status === TaskStatuses.Completed}
               onChange={changeTaskStatusHandler}
             />
             <EditableSpan
@@ -56,10 +55,11 @@ export const Task = memo(({task, todolistID, changeTaskStatus, updateTaskTitle, 
                 updateTaskTitleHandler(task.id, newTitle)
               }
             />
+              <IconButton aria-label="delete" onClick={removeTaskHandler}>
+                  <DeleteIcon />
+              </IconButton>
           </div>
-          <IconButton aria-label="delete" onClick={removeTaskHandler}>
-            <DeleteIcon />
-          </IconButton>
-        </ListItem>
+
+
       );
 })
