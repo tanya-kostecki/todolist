@@ -16,18 +16,14 @@ import CssBaseline from "@mui/material/CssBaseline";
 import {useAppDispatch, useAppSelector} from "./model/store";
 import {
     changeFilterAC,
-    removeTodolistAC,
-    addTodolistAC,
-    updateTodolistTitleAC,
     getTodosTC, deleteTodosTC, createTodosTC, updateTodosTC
 } from "./model/todolists-reducer";
 import {
-    changeTaskTitleAC,
     deleteTaskTC,
-    addTaskTC, changeTaskStatusTC, updateTaskTC
+    addTaskTC, updateTaskTC
 } from "./model/tasks-reducer";
 import {TodoList} from "./components/todolist/TodoList";
-import {TaskStatuses, TaskType, UpdateTaskModelType} from "./api/api";
+import {TaskStatuses, TaskType} from "./api/api";
 
 type ThemeMode = "dark" | "light";
 
@@ -67,7 +63,7 @@ function AppLesson() {
     }, [dispatch]);
 
     const changeTaskStatus = useCallback((todolistID: string, taskID: string, status: TaskStatuses) => {
-        dispatch(changeTaskStatusTC(todolistID, taskID, status))
+        dispatch(updateTaskTC(todolistID, taskID, {status: status}))
     }, [dispatch]);
 
     const removeTodolist = useCallback((todolistID: string) => {
@@ -79,7 +75,7 @@ function AppLesson() {
     }, [dispatch]);
 
     const updateTaskTitle = useCallback((todolistID: string, taskID: string, newTitle: string) => {
-        dispatch(changeTaskTitleAC(todolistID, taskID, newTitle));
+        dispatch(updateTaskTC(todolistID, taskID, {title: newTitle}));
     }, [dispatch]);
 
     const updateTodolistTitle = useCallback((todolistID: string, newTitle: string) => {
