@@ -3,7 +3,7 @@ import Checkbox from "@mui/material/Checkbox";
 import {EditableSpan} from '../EditableSpan';
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import {TaskType} from "../../api/api";
+import {TaskType, UpdateTaskModelType} from "../../api/api";
 import {TaskStatuses} from "../../api/api";
 
 export type TaskPropsType = {
@@ -18,11 +18,10 @@ export type TaskPropsType = {
     updateTaskTitle: (
         todoListID: string,
         taskID: string,
-        newTitle: string
+        newTitle: string,
     ) => void;
 }
 export const Task = memo(({task, todolistID, changeTaskStatus, updateTaskTitle, removeTasks}: TaskPropsType) => {
-    console.log('Task')
     const updateTaskTitleHandler = useCallback((taskID: string, newTitle: string) => {
         updateTaskTitle(todolistID, taskID, newTitle);
       }, [todolistID, updateTaskTitle]);

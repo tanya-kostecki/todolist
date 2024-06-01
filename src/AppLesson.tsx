@@ -19,15 +19,15 @@ import {
     removeTodolistAC,
     addTodolistAC,
     updateTodolistTitleAC,
-    getTodosTC
+    getTodosTC, deleteTodosTC, createTodosTC, updateTodosTC
 } from "./model/todolists-reducer";
 import {
     changeTaskTitleAC,
     deleteTaskTC,
-    addTaskTC, changeTaskStatusTC
+    addTaskTC, changeTaskStatusTC, updateTaskTC
 } from "./model/tasks-reducer";
 import {TodoList} from "./components/todolist/TodoList";
-import {TaskStatuses, TaskType} from "./api/api";
+import {TaskStatuses, TaskType, UpdateTaskModelType} from "./api/api";
 
 type ThemeMode = "dark" | "light";
 
@@ -71,7 +71,7 @@ function AppLesson() {
     }, [dispatch]);
 
     const removeTodolist = useCallback((todolistID: string) => {
-        dispatch(removeTodolistAC(todolistID));
+        dispatch(deleteTodosTC(todolistID));
     }, [dispatch]);
 
     const addTask = useCallback((todolistID: string, title: string) => {
@@ -83,12 +83,11 @@ function AppLesson() {
     }, [dispatch]);
 
     const updateTodolistTitle = useCallback((todolistID: string, newTitle: string) => {
-        dispatch(updateTodolistTitleAC(todolistID, newTitle));
+        dispatch(updateTodosTC(todolistID, newTitle));
     }, [dispatch]);
 
     const addTodolist = useCallback((title: string) => {
-        let action = addTodolistAC(title);
-        dispatch(action);
+        dispatch(createTodosTC(title));
     }, [dispatch]);
 
     const [themeMode, setThemeMode] = useState<ThemeMode>("light");

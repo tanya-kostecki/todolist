@@ -24,12 +24,6 @@ const updateTitleHandler = () => {
 }
 
   return editable ? (
-    // <input
-    //   value={newTitle}
-    //   onChange={changeTitleHandler}
-    //   autoFocus
-    //   onBlur={editHandler}
-    // />
     <TextField
         label="Enter a title"
         variant={'outlined'}

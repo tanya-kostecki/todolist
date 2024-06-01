@@ -9,7 +9,7 @@ import List from "@mui/material/List";
 import {Box} from "@mui/material";
 import {FilterButtonContainerSx} from "./Todolist.styles";
 import {Task} from "./Task";
-import {TaskStatuses, TaskType} from "../../api/api";
+import {TaskStatuses, TaskType, UpdateTaskModelType} from "../../api/api";
 import {useAppDispatch} from "../../model/store";
 import {getTasksTC} from "../../model/tasks-reducer";
 
@@ -31,7 +31,7 @@ type TodoListPropsType = {
     updateTaskTitle: (
         todoListID: string,
         taskID: string,
-        newTitle: string
+        newTitle: string,
     ) => void;
     updateTodolistTitle: (todolistID: string, newTitle: string) => void;
 };

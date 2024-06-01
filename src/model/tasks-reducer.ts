@@ -25,7 +25,7 @@ type ActionsType =
     | ChangeTaskStatusActionType
     | AddTodolistActionType
     | RemoveTodolistActionType |
-    SetTodolistsActionType | SetTasksActionType
+    SetTodolistsActionType | SetTasksActionType | UpdateTaskActionType
 
 const initialState: TaskStateType = {};
 
@@ -86,6 +86,15 @@ export const tasksReducer = (
         case "SET-TASKS": {
             return {...state, [action.payload.todolistId]: action.payload.tasks}
         }
+        case "UPDATE-TASK": {
+            return {
+                ...state,
+                [action.payload.todolistId]: state[action.payload.todolistId]
+                    .map(task => task.id === action.payload.taskId
+                        ? {...task, ...action.payload.model}
+                        : task)
+            }
+        }
         default:
             return state
     }
@@ -140,6 +149,22 @@ export const changeTaskStatusAC = (
     } as const;
 };
 
+type UpdateTaskActionType = ReturnType<typeof updateTaskAC>;
+export const updateTaskAC = (
+    todolistId: string,
+    taskId: string,
+    model: UpdateTaskModelType
+) => {
+    return {
+        type: "UPDATE-TASK",
+        payload: {
+            todolistId,
+            taskId,
+            model,
+        },
+    } as const;
+};
+
 export const setTasksAC = (todolistId: string, tasks: TaskType[]) => {
     return {
         type: 'SET-TASKS',
@@ -181,3 +206,21 @@ export const changeTaskStatusTC = (todolistId: string, taskId: string, status: T
         }
     }
 
+export const updateTaskTC = (todolistId: string, taskId: string, model: UpdateTaskModelType) =>
+    (dispatch: Dispatch, getState: () => AppRootStateType) => {
+        const tasks = getState().tasks
+        const task = tasks[todolistId].find((t) => t.id === taskId);
+        if (task) {
+            // const model: UpdateTaskModelType = {
+            //     title: task.title,
+            //     description: task.description,
+            //     deadline: task.deadline,
+            //     priority: task.priority,
+            //     startDate: task.startDate,
+            //     ...model
+            // }
+
+            todolistApi.updateTask(todolistId, taskId, model).then(res => dispatch(updateTaskAC(todolistId, taskId, model))
+            )
+        }
+    }
