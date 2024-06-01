@@ -10,16 +10,12 @@ import {AppRootStateType} from "./store";
 
 export type RemoveTaskActionType = ReturnType<typeof removeTaskAC>;
 export type AddTaskActionType = ReturnType<typeof addTaskAC>;
-export type ChangeTaskTitleActionType = ReturnType<typeof changeTaskTitleAC>;
-export type ChangeTaskStatusActionType = ReturnType<typeof changeTaskStatusAC>;
 export type SetTasksActionType = ReturnType<typeof setTasksAC>;
 type UpdateTaskActionType = ReturnType<typeof updateTaskAC>;
 
 type ActionsType =
     | RemoveTaskActionType
     | AddTaskActionType
-    | ChangeTaskTitleActionType
-    | ChangeTaskStatusActionType
     | AddTodolistActionType
     | RemoveTodolistActionType |
     SetTodolistsActionType | SetTasksActionType | UpdateTaskActionType
@@ -54,7 +50,7 @@ export const tasksReducer = (
             return copyState
         }
         case "SET-TODOLISTS": {
-            const copyState = {...state}
+            const copyState: TaskStateType = {...state}
             action.payload.todolists.forEach(todo => {
                 return copyState[todo.id] = []
             })
@@ -82,18 +78,6 @@ export const removeTaskAC = (todolistId: string, taskId: string) => ({
     payload: {todolistId, taskId,}
 } as const)
 export const addTaskAC = (task: TaskType) => ({type: "ADD-TASK", payload: {task}} as const)
-export const changeTaskTitleAC = (
-    todolistId: string,
-    taskId: string,
-    title: string
-) => ({type: "CHANGE-TASK-TITLE", payload: {todolistId, taskId, title}} as const)
-
-export const changeTaskStatusAC = (
-    todolistId: string,
-    taskId: string,
-    status: TaskStatuses
-) => ({type: "CHANGE-TASK-STATUS", payload: {todolistId, taskId, status}} as const)
-
 export const updateTaskAC = (
     todolistId: string,
     taskId: string,
