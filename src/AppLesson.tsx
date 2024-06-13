@@ -24,6 +24,9 @@ import {
 } from "./model/tasks-reducer";
 import {TodoList} from "./components/todolist/TodoList";
 import {TaskStatuses, TaskType} from "./api/api";
+import {LinearProgress} from "@mui/material";
+import {RequestStatusType} from "./model/app-reducer";
+import {CustomizedSnackbars} from "./components/error-snackbar/ErrorSnackbar";
 
 type ThemeMode = "dark" | "light";
 
@@ -100,9 +103,12 @@ function AppLesson() {
     const changeModeHandler = () =>
         setThemeMode(themeMode === "light" ? "dark" : "light");
 
+    const status = useAppSelector<RequestStatusType>(state => state.app.status)
+
     return (
         <ThemeProvider theme={theme}>
             <CssBaseline/>
+            <CustomizedSnackbars/>
             <AppBar position="static" sx={{mb: "30px"}}>
                 <Toolbar sx={FilterButtonContainerSx}>
                     <IconButton color="inherit">
@@ -121,6 +127,7 @@ function AppLesson() {
                         <Switch color={"default"} onChange={changeModeHandler}/>
                     </div>
                 </Toolbar>
+                {status === 'loading' &&  <LinearProgress color={'secondary'}/>}
             </AppBar>
 
             <Container fixed>

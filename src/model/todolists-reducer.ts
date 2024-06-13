@@ -2,6 +2,8 @@ import {v1} from "uuid";
 import {FilterValuesType} from "../AppLesson";
 import {todolistApi, TodolistType} from "../api/api";
 import {Dispatch} from "redux";
+import {setAppStatus} from "./app-reducer";
+import {handleNetworkServerError} from "../utils/ErrorUtils";
 
 export type RemoveTodolistActionType = ReturnType<typeof removeTodolistAC>
 export type AddTodolistActionType = ReturnType<typeof addTodolistAC>
@@ -71,19 +73,34 @@ export const changeFilterAC = (id: string, filter: FilterValuesType) => ({
 export const setTodolistAC = (todolists: TodolistType[]) => ({type: 'SET-TODOLISTS', payload: {todolists}} as const)
 
 //thunk creators
-export const getTodosTC = () => (dispatch: Dispatch, getState: any) => {
-    todolistApi.getTodolists().then(res => dispatch(setTodolistAC(res.data)));
+export const getTodosTC = () => (dispatch: Dispatch) => {
+    todolistApi.getTodolists().then(res => {
+        dispatch(setTodolistAC(res.data))
+        dispatch(setAppStatus('succeeded'))
+    }).catch(err => handleNetworkServerError(dispatch, err))
 }
 
-export const deleteTodosTC = (todolistId: string) => (dispatch: Dispatch, getState: any) => {
-    todolistApi.deleteTodolist(todolistId).then(res => dispatch(removeTodolistAC(todolistId)));
+export const deleteTodosTC = (todolistId: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatus('loading'))
+    todolistApi.deleteTodolist(todolistId).then(res => {
+        dispatch(removeTodolistAC(todolistId))
+        dispatch(setAppStatus('succeeded'))
+    }).catch(err => handleNetworkServerError(dispatch, err))
 }
 
-export const createTodosTC = (title: string) => (dispatch: Dispatch, getState: any) => {
-    todolistApi.createTodolist(title).then(res => dispatch(addTodolistAC(title)));
+export const createTodosTC = (title: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatus('loading'))
+    todolistApi.createTodolist(title).then(res => {
+        dispatch(addTodolistAC(title))
+        dispatch(setAppStatus('succeeded'))
+    }).catch(err => handleNetworkServerError(dispatch, err))
 }
 
-export const updateTodosTC = (todolistId: string, title: string) => (dispatch: Dispatch, getState: any) => {
-    todolistApi.updateTodolist(todolistId, title).then(res => dispatch(updateTodolistTitleAC(todolistId, title)));
+export const updateTodosTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
+    dispatch(setAppStatus('loading'))
+    todolistApi.updateTodolist(todolistId, title).then(res => {
+        dispatch(updateTodolistTitleAC(todolistId, title))
+        dispatch(setAppStatus('succeeded'))
+    }).catch(err => handleNetworkServerError(dispatch, err))
 }
 
