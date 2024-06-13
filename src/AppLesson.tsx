@@ -34,6 +34,7 @@ export type TodolistType = {
     id: string;
     title: string;
     filter: FilterValuesType;
+    entityStatus: RequestStatusType
 };
 
 export type TaskStateType = {
@@ -152,6 +153,7 @@ function AppLesson() {
                                         removeTodolist={removeTodolist}
                                         updateTaskTitle={updateTaskTitle}
                                         updateTodolistTitle={updateTodolistTitle}
+                                        entityStatus={tl.entityStatus}
                                     />
                                 </Paper>
                             </Grid>

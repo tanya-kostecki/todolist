@@ -12,6 +12,7 @@ import {Task} from "./Task";
 import {TaskStatuses, TaskType} from "../../api/api";
 import {useAppDispatch} from "../../model/store";
 import {getTasksTC} from "../../model/tasks-reducer";
+import {RequestStatusType} from "../../model/app-reducer";
 
 type TodoListPropsType = {
     todolistID: string;
@@ -34,6 +35,7 @@ type TodoListPropsType = {
         newTitle: string,
     ) => void;
     updateTodolistTitle: (todolistID: string, newTitle: string) => void;
+    entityStatus: RequestStatusType
 };
 export const TodoList = memo(
     ({
@@ -48,6 +50,7 @@ export const TodoList = memo(
          removeTodolist,
          updateTaskTitle,
          updateTodolistTitle,
+        entityStatus
      }: TodoListPropsType) => {
 
         const dispatch = useAppDispatch()
@@ -102,11 +105,11 @@ export const TodoList = memo(
                         oldTitle={title}
                         updateTitle={updateTodolistTitleHandler}
                     />
-                    <IconButton aria-label="delete" onClick={removeTodolistHandler}>
+                    <IconButton aria-label="delete" onClick={removeTodolistHandler} disabled={entityStatus === 'loading'}>
                         <DeleteIcon/>
                     </IconButton>
                 </h3>
-                <AddItemForm addItem={addTaskHandler}/>
+                <AddItemForm addItem={addTaskHandler} disabled={entityStatus === 'loading'} />
                 {!filteredTasks.length ? (
                     <p>No tasks</p>
                 ) : (
@@ -120,6 +123,7 @@ export const TodoList = memo(
                                     removeTasks={removeTasks}
                                     changeTaskStatus={changeTaskStatus}
                                     updateTaskTitle={updateTaskTitle}
+                                    disabled={entityStatus === 'loading'}
                                 />
                             );
                         })}

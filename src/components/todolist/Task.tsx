@@ -20,8 +20,9 @@ export type TaskPropsType = {
         taskID: string,
         newTitle: string,
     ) => void;
+    disabled?: boolean
 }
-export const Task = memo(({task, todolistID, changeTaskStatus, updateTaskTitle, removeTasks}: TaskPropsType) => {
+export const Task = memo(({task, todolistID, changeTaskStatus, updateTaskTitle, removeTasks, disabled}: TaskPropsType) => {
     const updateTaskTitleHandler = useCallback((taskID: string, newTitle: string) => {
         updateTaskTitle(todolistID, taskID, newTitle);
       }, [todolistID, updateTaskTitle]);
@@ -46,14 +47,16 @@ export const Task = memo(({task, todolistID, changeTaskStatus, updateTaskTitle, 
             <Checkbox
               checked={task.status === TaskStatuses.Completed}
               onChange={changeTaskStatusHandler}
+              disabled={disabled}
             />
             <EditableSpan
               oldTitle={task.title}
               updateTitle={(newTitle: string) =>
                 updateTaskTitleHandler(task.id, newTitle)
               }
+              disabled={disabled}
             />
-              <IconButton aria-label="delete" onClick={removeTaskHandler}>
+              <IconButton aria-label="delete" onClick={removeTaskHandler} disabled={disabled}>
                   <DeleteIcon />
               </IconButton>
           </div>

@@ -4,17 +4,22 @@ import TextField from '@mui/material/TextField';
 type EditableSpanProps = {
   oldTitle: string;
   updateTitle: (newTitle: string) => void
+  disabled?: boolean
 };
 export const EditableSpan = memo((props: EditableSpanProps) => {
   const [editable, setEditable] = useState(false);
   const [newTitle, setNewTitle] = useState(props.oldTitle);
 
   const editHandler = () => {
-    setEditable(!editable)
-    if (editable) {
+    if (!props.disabled) {
+      setEditable(!editable)
+      if (editable) {
         updateTitleHandler()
+      }
     }
-};
+
+  };
+
   const changeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setNewTitle(e.currentTarget.value);
   };

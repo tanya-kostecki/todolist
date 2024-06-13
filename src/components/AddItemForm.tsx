@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton'
 
 export type AddItemFormProps = {
   addItem: (title: string) => void;
+  disabled?: boolean
 };
 export const AddItemForm = memo((props: AddItemFormProps) => {
   // console.log('AddItemForm')
@@ -42,8 +43,9 @@ export const AddItemForm = memo((props: AddItemFormProps) => {
         onChange={changeTaskTitle}
         onKeyUp={addItemOnEnterHandler}
         helperText={error}
+        disabled={props.disabled}
       />
-      <IconButton onClick={addItemHandler} color={'primary'}>
+      <IconButton onClick={addItemHandler} color={'primary'} disabled={props.disabled}>
         <AddBoxIcon />
       </IconButton>
     </div>
