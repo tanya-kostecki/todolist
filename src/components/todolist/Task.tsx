@@ -47,16 +47,16 @@ export const Task = memo(({task, todolistID, changeTaskStatus, updateTaskTitle, 
             <Checkbox
               checked={task.status === TaskStatuses.Completed}
               onChange={changeTaskStatusHandler}
-              disabled={disabled}
+              disabled={disabled || task.entityStatus === 'loading'}
             />
             <EditableSpan
               oldTitle={task.title}
               updateTitle={(newTitle: string) =>
                 updateTaskTitleHandler(task.id, newTitle)
               }
-              disabled={disabled}
+              disabled={disabled || task.entityStatus === 'loading'}
             />
-              <IconButton aria-label="delete" onClick={removeTaskHandler} disabled={disabled}>
+              <IconButton aria-label="delete" onClick={removeTaskHandler} disabled={disabled || task.entityStatus === 'loading'}>
                   <DeleteIcon />
               </IconButton>
           </div>

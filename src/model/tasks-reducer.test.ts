@@ -1,4 +1,4 @@
-import {TaskPriorities, TaskStatuses} from "../api/api";
+import {TaskPriorities, TaskStatuses, TaskType} from "../api/api";
 import {addTaskAC, removeTaskAC, tasksReducer, updateTaskAC} from "./tasks-reducer";
 import {addTodolistAC, removeTodolistAC} from "./todolists-reducer";
 import {TaskStateType} from "../AppLesson";
@@ -17,7 +17,8 @@ beforeEach(() => {
                 id: '1',
                 todoListId: 'todolistID1',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus: "idle"
             },
             {
                 description: '',
@@ -29,7 +30,8 @@ beforeEach(() => {
                 id: '2',
                 todoListId: 'todolistID1',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus: 'idle'
             },
             {
                 description: '',
@@ -41,7 +43,8 @@ beforeEach(() => {
                 id: '3',
                 todoListId: 'todolistID1',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus: "idle"
             }
 
         ],
@@ -56,7 +59,8 @@ beforeEach(() => {
                 id: '1',
                 todoListId: 'todolistID1',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus: "idle"
             },
             {
                 description: '',
@@ -68,7 +72,8 @@ beforeEach(() => {
                 id: '2',
                 todoListId: 'todolistID1',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus: "idle"
             },
             {
                 description: '',
@@ -80,7 +85,8 @@ beforeEach(() => {
                 id: '3',
                 todoListId: 'todolistID1',
                 order: 0,
-                addedDate: ''
+                addedDate: '',
+                entityStatus: "idle"
             },
         ],
     };
@@ -160,7 +166,7 @@ test('correct task should be deleted', () => {
 })
 
 test('correct task should be added to correct todolist', () => {
-    const newTask = {
+    const newTask: TaskType = {
         description: '',
         title: 'Juice',
         status: TaskStatuses.New,
@@ -170,7 +176,8 @@ test('correct task should be added to correct todolist', () => {
         id: '1',
         todoListId: 'todolistID1',
         order: 0,
-        addedDate: ''
+        addedDate: '',
+        entityStatus: 'idle'
     }
     const endState = tasksReducer(initialState, addTaskAC(newTask))
 

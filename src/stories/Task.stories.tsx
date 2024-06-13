@@ -23,7 +23,8 @@ const meta: Meta<typeof Task> = {
             id: '1234',
             todoListId: 'todolistID1',
             order: 0,
-            addedDate: ''
+            addedDate: '',
+            entityStatus: 'idle'
         },
         todolistID: 'todolist1',
         removeTasks: fn(),
@@ -50,7 +51,8 @@ export const TaskIsNotDoneStory: Story = {
             id: '1234',
             todoListId: 'todolistID1',
             order: 0,
-            addedDate: ''
+            addedDate: '',
+            entityStatus: 'idle'
         },
     }
 }
