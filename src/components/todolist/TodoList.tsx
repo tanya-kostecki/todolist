@@ -104,6 +104,7 @@ export const TodoList = memo(
                     <EditableSpan
                         oldTitle={title}
                         updateTitle={updateTodolistTitleHandler}
+                        disabled={entityStatus === 'loading'}
                     />
                     <IconButton aria-label="delete" onClick={removeTodolistHandler} disabled={entityStatus === 'loading'}>
                         <DeleteIcon/>

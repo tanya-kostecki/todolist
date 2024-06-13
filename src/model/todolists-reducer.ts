@@ -115,9 +115,11 @@ export const createTodosTC = (title: string) => (dispatch: Dispatch) => {
 
 export const updateTodosTC = (todolistId: string, title: string) => (dispatch: Dispatch) => {
     dispatch(setAppStatus('loading'))
+    dispatch(setTodolistEntityStatusAC(todolistId, 'loading'))
     todolistApi.updateTodolist(todolistId, title).then(res => {
         dispatch(updateTodolistTitleAC(todolistId, title))
         dispatch(setAppStatus('succeeded'))
+        dispatch(setTodolistEntityStatusAC(todolistId, 'succeeded'))
     }).catch(err => handleNetworkServerError(dispatch, err))
 }
 
