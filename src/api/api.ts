@@ -1,5 +1,6 @@
 import axios, {AxiosResponse} from "axios";
 import {RequestStatusType} from "../model/app-reducer";
+import {LoginType} from "../pages/login/Login";
 
 const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.1",
@@ -9,6 +10,18 @@ const instance = axios.create({
     }
 })
 //api
+export const authAPI = {
+    me() {
+        return instance.get<ResponseType<UserType>>('auth/me')
+    },
+    login(data: LoginType) {
+        return instance.post<null, AxiosResponse<ResponseType<{ userId: number}>>, LoginType>('auth/login', data);
+    },
+    logout() {
+        return instance.delete<ResponseType>('auth/login');
+    }
+}
+
 export const todolistApi = {
     getTodolists() {
         return instance.get<TodolistType[]>('todo-lists');
@@ -43,6 +56,12 @@ export const todolistApi = {
 }
 
 // types
+export type UserType = {
+    id: number
+    email: string
+    password: string
+}
+
 export type TodolistType = {
     id: string
     addedDate: string

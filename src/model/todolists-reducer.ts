@@ -89,6 +89,7 @@ export const setTodolistEntityStatusAC = (todolistId: string, entityStatus: Requ
 
 //thunk creators
 export const getTodosTC = () => (dispatch: Dispatch) => {
+    dispatch(setAppStatus('loading'))
     todolistApi.getTodolists().then(res => {
         dispatch(setTodolistAC(res.data))
         dispatch(setAppStatus('succeeded'))

@@ -24,9 +24,12 @@ import {
 } from "./model/tasks-reducer";
 import {TodoList} from "./components/todolist/TodoList";
 import {TaskStatuses, TaskType} from "./api/api";
-import {LinearProgress} from "@mui/material";
+import {CircularProgress, LinearProgress} from "@mui/material";
 import {RequestStatusType} from "./model/app-reducer";
 import {CustomizedSnackbars} from "./components/error-snackbar/ErrorSnackbar";
+import {TodolistPage} from "./pages/todolist-page/TodolistPage";
+import {Outlet} from "react-router-dom";
+import {logoutTC, meTC} from "./model/auth-reducer";
 
 type ThemeMode = "dark" | "light";
 
@@ -44,52 +47,6 @@ export type FilterValuesType = "all" | "completed" | "active";
 
 function AppLesson() {
 
-    const todolists = useAppSelector<TodolistType[]>(
-        (state) => state.todolists
-    );
-    const tasks = useAppSelector<TaskStateType>(
-        (state) => state.tasks
-    );
-
-    const dispatch = useAppDispatch();
-
-    useEffect(() => {
-        dispatch(getTodosTC())
-    }, []);
-
-
-    const changeFilter = useCallback((todolistID: string, filter: FilterValuesType) => {
-        dispatch(changeFilterAC(todolistID, filter));
-    }, [dispatch]);
-
-    const removeTasks = useCallback((todolistID: string, taskID: string) => {
-        dispatch(deleteTaskTC(todolistID, taskID));
-    }, [dispatch]);
-
-    const changeTaskStatus = useCallback((todolistID: string, taskID: string, status: TaskStatuses) => {
-        dispatch(updateTaskTC(todolistID, taskID, {status: status}))
-    }, [dispatch]);
-
-    const removeTodolist = useCallback((todolistID: string) => {
-        dispatch(deleteTodosTC(todolistID));
-    }, [dispatch]);
-
-    const addTask = useCallback((todolistID: string, title: string) => {
-        dispatch(addTaskTC(todolistID, title));
-    }, [dispatch]);
-
-    const updateTaskTitle = useCallback((todolistID: string, taskID: string, newTitle: string) => {
-        dispatch(updateTaskTC(todolistID, taskID, {title: newTitle}));
-    }, [dispatch]);
-
-    const updateTodolistTitle = useCallback((todolistID: string, newTitle: string) => {
-        dispatch(updateTodosTC(todolistID, newTitle));
-    }, [dispatch]);
-
-    const addTodolist = useCallback((title: string) => {
-        dispatch(createTodosTC(title));
-    }, [dispatch]);
-
     const [themeMode, setThemeMode] = useState<ThemeMode>("light");
 
     const theme = createTheme({
@@ -105,6 +62,26 @@ function AppLesson() {
         setThemeMode(themeMode === "light" ? "dark" : "light");
 
     const status = useAppSelector<RequestStatusType>(state => state.app.status)
+    const isInitialized = useAppSelector(state => state.app.isInitialized);
+    const isLoggedIn = useAppSelector(state => state.auth.isLoggedIn);
+    const dispatch = useAppDispatch()
+
+    useEffect(() => {
+        dispatch(meTC())
+    }, []);
+
+
+    if (!isInitialized) {
+        return (
+            <div style={{position: 'fixed', top: '30%', textAlign: 'center', width: '100%'}}>
+                <CircularProgress/>
+            </div>
+        )
+    }
+
+    const logoutHandler = () => {
+        dispatch(logoutTC())
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -116,50 +93,18 @@ function AppLesson() {
                         <MenuIcon/>
                     </IconButton>
                     <div>
-                        <MenuButton background={theme.palette.primary.dark}>
-                            Login
-                        </MenuButton>
-                        <MenuButton background={theme.palette.primary.dark}>
-                            Logout
-                        </MenuButton>
-                        <MenuButton background={theme.palette.primary.light}>
-                            Faq
-                        </MenuButton>
+                        {isLoggedIn &&
+                            <MenuButton onClick={logoutHandler} background={theme.palette.primary.dark}>
+                                Logout
+                            </MenuButton>}
                         <Switch color={"default"} onChange={changeModeHandler}/>
                     </div>
                 </Toolbar>
-                {status === 'loading' &&  <LinearProgress color={'secondary'}/>}
+                {status === 'loading' && <LinearProgress color={'secondary'}/>}
             </AppBar>
 
             <Container fixed>
-                <Grid container sx={{mb: "30px"}}>
-                    <AddItemForm addItem={addTodolist}/>
-                </Grid>
-                <Grid container spacing={4}>
-                    {todolists.map((tl) => {
-                        return (
-                            <Grid item key={tl.id}>
-                                <Paper elevation={5} sx={{p: "20px"}}>
-                                    <TodoList
-                                        key={tl.id}
-                                        todolistID={tl.id}
-                                        tasks={tasks[tl.id]}
-                                        title={tl.title}
-                                        removeTasks={removeTasks}
-                                        changeFilter={changeFilter}
-                                        filter={tl.filter}
-                                        addTask={addTask}
-                                        changeTaskStatus={changeTaskStatus}
-                                        removeTodolist={removeTodolist}
-                                        updateTaskTitle={updateTaskTitle}
-                                        updateTodolistTitle={updateTodolistTitle}
-                                        entityStatus={tl.entityStatus}
-                                    />
-                                </Paper>
-                            </Grid>
-                        );
-                    })}
-                </Grid>
+                <Outlet/>
             </Container>
         </ThemeProvider>
     );
