@@ -28,7 +28,7 @@ import {CircularProgress, LinearProgress} from "@mui/material";
 import {RequestStatusType} from "./model/app-reducer";
 import {CustomizedSnackbars} from "./components/error-snackbar/ErrorSnackbar";
 import {TodolistPage} from "./pages/todolist-page/TodolistPage";
-import {Outlet} from "react-router-dom";
+import {Outlet, useLocation} from "react-router-dom";
 import {logoutTC, meTC} from "./model/auth-reducer";
 
 type ThemeMode = "dark" | "light";
@@ -46,6 +46,7 @@ export type TaskStateType = {
 export type FilterValuesType = "all" | "completed" | "active";
 
 function AppLesson() {
+
 
     const [themeMode, setThemeMode] = useState<ThemeMode>("light");
 
