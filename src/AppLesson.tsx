@@ -1,34 +1,21 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import "./App.css";
-import {AddItemForm} from "./components/AddItemForm";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
 import {FilterButtonContainerSx} from "./components/todolist/Todolist.styles";
 import {MenuButton} from "./components/MenuButton";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
 import CssBaseline from "@mui/material/CssBaseline";
 import {useAppDispatch, useAppSelector} from "./model/store";
-import {
-    changeFilterAC,
-    getTodosTC, deleteTodosTC, createTodosTC, updateTodosTC
-} from "./model/todolists-reducer";
-import {
-    deleteTaskTC,
-    addTaskTC, updateTaskTC
-} from "./model/tasks-reducer";
-import {TodoList} from "./components/todolist/TodoList";
-import {TaskStatuses, TaskType} from "./api/api";
+import {TaskType} from "./api/api";
 import {CircularProgress, LinearProgress} from "@mui/material";
 import {RequestStatusType} from "./model/app-reducer";
 import {CustomizedSnackbars} from "./components/error-snackbar/ErrorSnackbar";
-import {TodolistPage} from "./pages/todolist-page/TodolistPage";
-import {Outlet, useLocation} from "react-router-dom";
+import {Outlet} from "react-router-dom";
 import {logoutTC, meTC} from "./model/auth-reducer";
 
 type ThemeMode = "dark" | "light";
