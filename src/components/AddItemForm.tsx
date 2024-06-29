@@ -1,11 +1,11 @@
 import React, { useState, ChangeEvent, KeyboardEvent, memo } from "react";
 import TextField from "@mui/material/TextField";
-import AddBoxIcon from '@mui/icons-material/AddBox'
-import IconButton from '@mui/material/IconButton'
+import AddBoxIcon from "@mui/icons-material/AddBox";
+import IconButton from "@mui/material/IconButton";
 
 export type AddItemFormProps = {
   addItem: (title: string) => void;
-  disabled?: boolean
+  disabled?: boolean;
 };
 export const AddItemForm = memo((props: AddItemFormProps) => {
   // console.log('AddItemForm')
@@ -45,9 +45,9 @@ export const AddItemForm = memo((props: AddItemFormProps) => {
         helperText={error}
         disabled={props.disabled}
       />
-      <IconButton onClick={addItemHandler} color={'primary'} disabled={props.disabled}>
+      <IconButton onClick={addItemHandler} color={"primary"} disabled={props.disabled}>
         <AddBoxIcon />
       </IconButton>
     </div>
   );
-})
+});
