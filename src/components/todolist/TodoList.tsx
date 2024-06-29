@@ -1,5 +1,5 @@
 import React, { memo, useCallback, useMemo } from "react";
-import { FilterValuesType } from "AppLesson";
+import { FilterValuesType } from "App";
 import { AddItemForm } from "../AddItemForm";
 import { EditableSpan } from "../EditableSpan";
 import IconButton from "@mui/material/IconButton";
@@ -75,7 +75,6 @@ export const TodoList = memo(
 
     let filteredTasks = tasks;
     filteredTasks = useMemo(() => {
-      console.log("useMemo");
       if (filter === "completed") {
         filteredTasks = tasks.filter((task) => task.status === 2);
       }

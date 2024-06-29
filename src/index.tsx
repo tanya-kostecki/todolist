@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-import AppLesson from "./AppLesson";
+import App from "App";
 import { Provider } from "react-redux";
 import { store } from "model/store";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
@@ -12,7 +12,7 @@ import { ErrorPage } from "pages/error/ErrorPage";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <AppLesson />,
+    element: <App />,
     errorElement: <Navigate to="/404" />,
     children: [
       {

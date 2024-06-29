@@ -1,10 +1,10 @@
 import { LoginType } from "pages/login/Login";
 import { authAPI } from "api/api";
 import { handleAppError, handleNetworkServerError } from "utils/ErrorUtils";
-import { clearTodosDataAC } from "./todolists-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppThunk } from "model/store";
 import { appActions } from "model/appSlice";
+import { todolistsActions } from "model/todolistsSlice";
 
 const slice = createSlice({
   name: "auth",
@@ -65,7 +65,7 @@ export const logoutTC = (): AppThunk => (dispatch) => {
     .then((res) => {
       if (res.data.resultCode === 0) {
         dispatch(authActions.setIsLoggedIn({ isLoggedIn: false }));
-        dispatch(clearTodosDataAC());
+        dispatch(todolistsActions.clearTodosData());
       } else {
         handleAppError(dispatch, res.data);
       }

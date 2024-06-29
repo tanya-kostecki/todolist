@@ -33,7 +33,7 @@ export type TaskStateType = {
 };
 export type FilterValuesType = "all" | "completed" | "active";
 
-function AppLesson() {
+function App() {
   const [themeMode, setThemeMode] = useState<ThemeMode>("light");
 
   const theme = createTheme({
@@ -96,4 +96,4 @@ function AppLesson() {
   );
 }
 
-export default AppLesson;
+export default App;

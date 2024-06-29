@@ -1,10 +1,10 @@
 import { Meta, StoryObj } from "@storybook/react";
-import AppLesson from "../AppLesson";
+import App from "App";
 import { ReduxStoreProviderDecorator } from "../model/ReduxStoreProviderDecorator";
 
-const meta: Meta<typeof AppLesson> = {
+const meta: Meta<typeof App> = {
   title: "TODOLISTS/AppWithRedux",
-  component: AppLesson,
+  component: App,
   parameters: {
     layout: "centered",
   },
@@ -13,6 +13,6 @@ const meta: Meta<typeof AppLesson> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof AppLesson>;
+type Story = StoryObj<typeof App>;
 
 export const AppLessonStory: Story = {};

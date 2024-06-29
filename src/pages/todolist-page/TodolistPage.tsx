@@ -5,9 +5,9 @@ import Paper from "@mui/material/Paper";
 import { TodoList } from "components/todolist/TodoList";
 import { AppRootStateType, useAppDispatch } from "model/store";
 import { useCallback, useEffect } from "react";
-import { changeFilterAC, createTodosTC, deleteTodosTC, getTodosTC, updateTodosTC } from "model/todolists-reducer";
-import { FilterValuesType, TaskStateType, TodolistType } from "AppLesson";
-import { addTaskTC, deleteTaskTC, updateTaskTC } from "model/tasks-reducer";
+import { createTodosTC, deleteTodosTC, getTodosTC, todolistsActions, updateTodosTC } from "model/todolistsSlice";
+import { FilterValuesType, TaskStateType, TodolistType } from "App";
+import { addTaskTC, deleteTaskTC, updateTaskTC } from "model/tasksSlice";
 import { TaskStatuses } from "api/api";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -39,7 +39,7 @@ export const TodolistPage = () => {
 
   const changeFilter = useCallback(
     (todolistID: string, filter: FilterValuesType) => {
-      dispatch(changeFilterAC(todolistID, filter));
+      dispatch(todolistsActions.changeFilter({ id: todolistID, filter }));
     },
     [dispatch],
   );
