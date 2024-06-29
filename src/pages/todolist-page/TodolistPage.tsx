@@ -3,18 +3,19 @@ import Grid from "@mui/material/Grid";
 import { AddItemForm } from "components/AddItemForm";
 import Paper from "@mui/material/Paper";
 import { TodoList } from "components/todolist/TodoList";
-import { useAppDispatch, useAppSelector } from "model/store";
+import { AppRootStateType, useAppDispatch } from "model/store";
 import { useCallback, useEffect } from "react";
 import { changeFilterAC, createTodosTC, deleteTodosTC, getTodosTC, updateTodosTC } from "model/todolists-reducer";
 import { FilterValuesType, TaskStateType, TodolistType } from "AppLesson";
 import { addTaskTC, deleteTaskTC, updateTaskTC } from "model/tasks-reducer";
 import { TaskStatuses } from "api/api";
 import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const TodolistPage = () => {
-  const todolists = useAppSelector<TodolistType[]>((state) => state.todolists);
-  const tasks = useAppSelector<TaskStateType>((state) => state.tasks);
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const todolists = useSelector<AppRootStateType, TodolistType[]>((state) => state.todolists);
+  const tasks = useSelector<AppRootStateType, TaskStateType>((state) => state.tasks);
+  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

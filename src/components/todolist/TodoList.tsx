@@ -1,5 +1,5 @@
-import React, { memo, useCallback, useEffect, useMemo } from "react";
-import { FilterValuesType } from "../../AppLesson";
+import React, { memo, useCallback, useMemo } from "react";
+import { FilterValuesType } from "AppLesson";
 import { AddItemForm } from "../AddItemForm";
 import { EditableSpan } from "../EditableSpan";
 import IconButton from "@mui/material/IconButton";
@@ -9,10 +9,9 @@ import List from "@mui/material/List";
 import { Box } from "@mui/material";
 import { FilterButtonContainerSx } from "./Todolist.styles";
 import { Task } from "./Task";
-import { TaskStatuses, TaskType } from "../../api/api";
-import { useAppDispatch } from "../../model/store";
-import { getTasksTC } from "../../model/tasks-reducer";
-import { RequestStatusType } from "../../model/app-reducer";
+import { TaskStatuses, TaskType } from "api/api";
+import { useAppDispatch } from "model/store";
+import { RequestStatusType } from "model/appSlice";
 
 type TodoListPropsType = {
   todolistID: string;

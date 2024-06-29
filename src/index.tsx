@@ -3,9 +3,9 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import AppLesson from "./AppLesson";
 import { Provider } from "react-redux";
-import { store } from "./model/store";
+import { store } from "model/store";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
-import { Login } from "./pages/login/Login";
+import { Login } from "pages/login/Login";
 import { TodolistPage } from "pages/todolist-page/TodolistPage";
 import { ErrorPage } from "pages/error/ErrorPage";
 

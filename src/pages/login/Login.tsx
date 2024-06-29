@@ -8,9 +8,10 @@ import FormLabel from "@mui/material/FormLabel";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useFormik } from "formik";
-import { useAppDispatch, useAppSelector } from "model/store";
+import { AppRootStateType, useAppDispatch } from "model/store";
 import { Navigate } from "react-router-dom";
-import { loginTC } from "model/auth-reducer";
+import { loginTC } from "model/authSlice";
+import { useSelector } from "react-redux";
 
 type ErrorsType = {
   email?: string;
@@ -50,7 +51,7 @@ export const Login = () => {
       formik.resetForm();
     },
   });
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
   if (isLoggedIn) return <Navigate to="/todolists" />;
 
   return (

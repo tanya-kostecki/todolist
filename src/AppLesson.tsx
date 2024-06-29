@@ -10,13 +10,14 @@ import { MenuButton } from "components/MenuButton";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useAppDispatch, useAppSelector } from "model/store";
+import { AppRootStateType, useAppDispatch } from "model/store";
 import { TaskType } from "api/api";
 import { CircularProgress, LinearProgress } from "@mui/material";
-import { RequestStatusType } from "model/app-reducer";
+import { RequestStatusType } from "model/appSlice";
 import { CustomizedSnackbars } from "components/error-snackbar/ErrorSnackbar";
 import { Outlet } from "react-router-dom";
-import { logoutTC, meTC } from "model/auth-reducer";
+import { logoutTC, meTC } from "model/authSlice";
+import { useSelector } from "react-redux";
 
 type ThemeMode = "dark" | "light";
 
@@ -46,9 +47,9 @@ function AppLesson() {
 
   const changeModeHandler = () => setThemeMode(themeMode === "light" ? "dark" : "light");
 
-  const status = useAppSelector<RequestStatusType>((state) => state.app.status);
-  const isInitialized = useAppSelector((state) => state.app.isInitialized);
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const status = useSelector<AppRootStateType, RequestStatusType>((state) => state.app.status);
+  const isInitialized = useSelector<AppRootStateType, boolean>((state) => state.app.isInitialized);
+  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
   const dispatch = useAppDispatch();
 
   useEffect(() => {

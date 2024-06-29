@@ -1,18 +1,18 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import { useAppDispatch, useAppSelector } from "../../model/store";
-import { setErrorAC } from "model/app-reducer";
+import { AppRootStateType, useAppDispatch } from "model/store";
+import { useSelector } from "react-redux";
+import { appActions } from "model/appSlice";
 
 export const CustomizedSnackbars = () => {
-  const error = useAppSelector((state) => state.app.error);
+  const error = useSelector<AppRootStateType, null | string>((state) => state.app.error);
   const dispatch = useAppDispatch();
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
-    dispatch(setErrorAC(null));
+    dispatch(appActions.setError({ error: null }));
   };
 
   return (

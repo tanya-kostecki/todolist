@@ -7,6 +7,7 @@
     "@emotion/styled": "^11.11.5",
     "@mui/icons-material": "^5.15.15",
     "@mui/material": "^5.15.15",
+    "@reduxjs/toolkit": "^2.2.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -36,7 +37,8 @@
     "build-storybook": "storybook build",
     "jest:integration": "jest -c integration/jest.config.js",
     "test:integration": "start-server-and-test storybook http-get://localhost:6006 jest:integration",
-    "jest:update-snapshot": "jest -c integration/jest.config.js --updateSnapshot"
+    "jest:update-snapshot": "jest -c integration/jest.config.js --updateSnapshot",
+    "format": "yarn prettier . --write"
   },
   "eslintConfig": {
     "extends": [

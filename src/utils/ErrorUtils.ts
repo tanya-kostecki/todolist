@@ -1,17 +1,17 @@
 import { Dispatch } from "redux";
 import { ResponseType } from "api/api";
-import { setAppStatus, setErrorAC } from "model/app-reducer";
+import { appActions } from "model/appSlice";
 
 export const handleNetworkServerError = (dispatch: Dispatch, err: { message: string }) => {
-  dispatch(setErrorAC(err.message));
-  dispatch(setAppStatus("failed"));
+  dispatch(appActions.setError({ error: err.message }));
+  dispatch(appActions.setAppStatus({ status: "failed" }));
 };
 
 export const handleAppError = <T>(dispatch: Dispatch, data: ResponseType<T>) => {
   if (data.messages.length) {
-    dispatch(setErrorAC(data.messages[0]));
+    dispatch(appActions.setError({ error: data.messages[0] }));
   } else {
-    dispatch(setErrorAC("Something went wrong"));
+    dispatch(appActions.setError({ error: "Something went wrong" }));
   }
-  dispatch(setAppStatus("failed"));
+  dispatch(appActions.setAppStatus({ status: "failed" }));
 };

@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { RequestStatusType } from "../model/app-reducer";
+import { RequestStatusType } from "model/appSlice";
 import { LoginType } from "../pages/login/Login";
 
 const instance = axios.create({
