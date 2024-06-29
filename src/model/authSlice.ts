@@ -16,6 +16,9 @@ const slice = createSlice({
       state.isLoggedIn = action.payload.isLoggedIn;
     },
   },
+  selectors: {
+    selectIsLoggedIn: (sliceState) => sliceState.isLoggedIn,
+  },
 });
 
 // thunks
@@ -78,3 +81,4 @@ export const logoutTC = (): AppThunk => (dispatch) => {
 
 export const authReducer = slice.reducer;
 export const authActions = slice.actions;
+export const { selectIsLoggedIn } = slice.selectors;

@@ -11,11 +11,12 @@ import { addTaskTC, deleteTaskTC, updateTaskTC } from "model/tasksSlice";
 import { TaskStatuses } from "api/api";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { selectIsLoggedIn } from "model/authSlice";
 
 export const TodolistPage = () => {
   const todolists = useSelector<AppRootStateType, TodolistType[]>((state) => state.todolists);
   const tasks = useSelector<AppRootStateType, TaskStateType>((state) => state.tasks);
-  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
