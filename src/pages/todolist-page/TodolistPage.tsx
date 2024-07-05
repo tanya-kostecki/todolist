@@ -7,7 +7,7 @@ import { AppRootStateType, useAppDispatch } from "model/store";
 import { useCallback, useEffect } from "react";
 import { createTodosTC, deleteTodosTC, getTodosTC, todolistsActions, updateTodosTC } from "model/todolistsSlice";
 import { FilterValuesType, TaskStateType, TodolistType } from "App";
-import { addTaskTC, deleteTaskTC, updateTaskTC } from "model/tasksSlice";
+import { addTask, deleteTaskTC, updateTaskTC } from "model/tasksSlice";
 import { TaskStatuses } from "api/api";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -45,9 +45,9 @@ export const TodolistPage = () => {
     [dispatch],
   );
 
-  const addTask = useCallback(
-    (todolistID: string, title: string) => {
-      dispatch(addTaskTC(todolistID, title));
+  const addTaskHandler = useCallback(
+    (todolistId: string, title: string) => {
+      dispatch(addTask({ todolistId, title }));
     },
     [dispatch],
   );
@@ -100,7 +100,7 @@ export const TodolistPage = () => {
                   removeTasks={removeTasks}
                   changeFilter={changeFilter}
                   filter={tl.filter}
-                  addTask={addTask}
+                  addTask={addTaskHandler}
                   changeTaskStatus={changeTaskStatus}
                   removeTodolist={removeTodolist}
                   updateTaskTitle={updateTaskTitle}

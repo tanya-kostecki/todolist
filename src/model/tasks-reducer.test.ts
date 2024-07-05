@@ -1,7 +1,8 @@
 import { TaskPriorities, TaskStatuses, TaskType, TodolistType, UpdateTaskModelType } from "api/api";
-import { fetchTasks, tasksActions, tasksReducer } from "model/tasksSlice";
+import { addTask, fetchTasks, tasksActions, tasksReducer } from "model/tasksSlice";
 import { TaskStateType } from "App";
 import { todolistsActions } from "model/todolistsSlice";
+import { Action } from "common/types/types";
 
 let initialState: TaskStateType;
 beforeEach(() => {
@@ -100,20 +101,25 @@ test("correct task should be deleted", () => {
 });
 
 test("correct task should be added to correct todolist", () => {
-  const newTask: TaskType = {
-    description: "",
-    title: "Juice",
-    status: TaskStatuses.New,
-    priority: TaskPriorities.Low,
-    startDate: "",
-    deadline: "",
-    id: "1",
-    todoListId: "todolistID1",
-    order: 0,
-    addedDate: "",
-    entityStatus: "idle",
+  const action: Action<typeof addTask.fulfilled> = {
+    type: addTask.fulfilled.type,
+    payload: {
+      task: {
+        description: "",
+        title: "Juice",
+        status: TaskStatuses.New,
+        priority: TaskPriorities.Low,
+        startDate: "",
+        deadline: "",
+        id: "1",
+        todoListId: "todolistID1",
+        order: 0,
+        addedDate: "",
+        entityStatus: "idle",
+      },
+    },
   };
-  const endState = tasksReducer(initialState, tasksActions.addTask({ task: newTask }));
+  const endState = tasksReducer(initialState, action);
 
   expect(endState["todolistID1"].length).toBe(4);
   expect(endState["todolistID2"].length).toBe(3);
@@ -174,7 +180,7 @@ test("property with todolistId should be deleted", () => {
 });
 
 test("tasks should be added for todolist", () => {
-  const action: Omit<ReturnType<typeof fetchTasks.fulfilled>, "meta"> = {
+  const action: Action<typeof fetchTasks.fulfilled> = {
     type: fetchTasks.fulfilled.type,
     payload: {
       tasks: initialState["todolistID1"],
