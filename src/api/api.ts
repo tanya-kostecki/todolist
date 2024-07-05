@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { RequestStatusType } from "model/appSlice";
 import { LoginType } from "pages/login/Login";
+import { UpdateDomainTaskModelType } from "model/tasksSlice";
 
 const instance = axios.create({
   baseURL: "https://social-network.samuraijs.com/api/1.1",
@@ -49,7 +50,8 @@ export const todolistApi = {
   deleteTask(todolistId: string, taskId: string) {
     return instance.delete<ResponseType>(`todo-lists/${todolistId}/tasks/${taskId}`);
   },
-  createTask(todolistId: string, title: string) {
+  createTask(arg: CreateTaskArgs) {
+    const { todolistId, title } = arg;
     return instance.post<ResponseType<{ item: TaskType }>>(`todo-lists/${todolistId}/tasks`, { title });
   },
   updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
@@ -66,6 +68,17 @@ export const todolistApi = {
 };
 
 // types
+export type CreateTaskArgs = {
+  todolistId: string;
+  title: string;
+};
+
+export type UpdateTaskArgs = {
+  taskId: string;
+  domainModel: UpdateDomainTaskModelType;
+  todolistId: string;
+};
+
 export type UserType = {
   id: number;
   email: string;

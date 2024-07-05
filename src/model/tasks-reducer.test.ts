@@ -1,5 +1,5 @@
-import { TaskPriorities, TaskStatuses, TaskType, TodolistType, UpdateTaskModelType } from "api/api";
-import { addTask, fetchTasks, tasksActions, tasksReducer } from "model/tasksSlice";
+import { TaskPriorities, TaskStatuses, UpdateTaskModelType } from "api/api";
+import { addTask, fetchTasks, tasksActions, tasksReducer, updateTask } from "model/tasksSlice";
 import { TaskStateType } from "App";
 import { todolistsActions } from "model/todolistsSlice";
 import { Action } from "common/types/types";
@@ -129,13 +129,16 @@ test("correct task should be added to correct todolist", () => {
 });
 
 test("title of specified task should be changed", () => {
-  const action = tasksActions.updateTask({
-    taskId: "2",
-    todolistId: "todolistID2",
-    model: {
-      title: "yogurt",
-    } as UpdateTaskModelType,
-  });
+  const action: Action<typeof updateTask.fulfilled> = {
+    type: updateTask.fulfilled.type,
+    payload: {
+      taskId: "2",
+      todolistId: "todolistID2",
+      domainModel: {
+        title: "yogurt",
+      } as UpdateTaskModelType,
+    },
+  };
 
   const endState = tasksReducer(initialState, action);
 

@@ -7,7 +7,7 @@ import { AppRootStateType, useAppDispatch } from "model/store";
 import { useCallback, useEffect } from "react";
 import { createTodosTC, deleteTodosTC, getTodosTC, todolistsActions, updateTodosTC } from "model/todolistsSlice";
 import { FilterValuesType, TaskStateType, TodolistType } from "App";
-import { addTask, deleteTaskTC, updateTaskTC } from "model/tasksSlice";
+import { addTask, deleteTaskTC, updateTask } from "model/tasksSlice";
 import { TaskStatuses } from "api/api";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -53,8 +53,8 @@ export const TodolistPage = () => {
   );
 
   const changeTaskStatus = useCallback(
-    (todolistID: string, taskID: string, status: TaskStatuses) => {
-      dispatch(updateTaskTC(todolistID, taskID, { status: status }));
+    (todolistId: string, taskId: string, status: TaskStatuses) => {
+      dispatch(updateTask({ taskId, todolistId, domainModel: { status } }));
     },
     [dispatch],
   );
@@ -67,8 +67,8 @@ export const TodolistPage = () => {
   );
 
   const updateTaskTitle = useCallback(
-    (todolistID: string, taskID: string, newTitle: string) => {
-      dispatch(updateTaskTC(todolistID, taskID, { title: newTitle }));
+    (todolistId: string, taskId: string, title: string) => {
+      dispatch(updateTask({ todolistId, taskId, domainModel: { title } }));
     },
     [dispatch],
   );
