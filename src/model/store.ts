@@ -1,6 +1,6 @@
 import { tasksReducer } from "model/tasksSlice";
 import { todolistsReducer } from "model/todolistsSlice";
-import { UnknownAction } from "redux";
+import { AnyAction, UnknownAction } from "redux";
 import { ThunkDispatch, ThunkAction } from "redux-thunk";
 import { appReducer } from "model/appSlice";
 import { authReducer } from "model/authSlice";
@@ -21,5 +21,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, AppRootStateTy
 export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, UnknownAction>;
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 
+// export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, AnyAction>;
 //@ts-ignore
 window.store = store;

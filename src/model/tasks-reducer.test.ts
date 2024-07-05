@@ -1,5 +1,5 @@
 import { TaskPriorities, TaskStatuses, TaskType, TodolistType, UpdateTaskModelType } from "api/api";
-import { tasksActions, tasksReducer } from "model/tasksSlice";
+import { fetchTasks, tasksActions, tasksReducer } from "model/tasksSlice";
 import { TaskStateType } from "App";
 import { todolistsActions } from "model/todolistsSlice";
 
@@ -171,4 +171,25 @@ test("property with todolistId should be deleted", () => {
 
   expect(keys.length).toBe(1);
   expect(endState["todolistID2"]).not.toBeDefined();
+});
+
+test("tasks should be added for todolist", () => {
+  const action: Omit<ReturnType<typeof fetchTasks.fulfilled>, "meta"> = {
+    type: fetchTasks.fulfilled.type,
+    payload: {
+      tasks: initialState["todolistID1"],
+      todolistId: "todolistID1",
+    },
+  };
+
+  const endState = tasksReducer(
+    {
+      todolistID2: [],
+      todolistID1: [],
+    },
+    action,
+  );
+
+  expect(endState["todolistID1"].length).toBe(3);
+  expect(endState["todolistID2"].length).toBe(0);
 });

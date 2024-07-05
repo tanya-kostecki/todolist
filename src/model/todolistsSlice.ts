@@ -2,9 +2,9 @@ import { FilterValuesType } from "App";
 import { todolistApi, TodolistType } from "api/api";
 import { appActions, RequestStatusType } from "model/appSlice";
 import { handleNetworkServerError } from "utils/ErrorUtils";
-import { getTasksTC } from "model/tasksSlice";
 import { AppThunk } from "./store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { fetchTasks } from "model/tasksSlice";
 
 export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType;
@@ -53,7 +53,7 @@ export const getTodosTC = (): AppThunk => (dispatch) => {
       dispatch(appActions.setAppStatus({ status: "succeeded" }));
       return res.data;
     })
-    .then((todos: TodolistType[]) => todos.forEach((todo) => dispatch(getTasksTC(todo.id))))
+    .then((todos: TodolistType[]) => todos.forEach((todo) => dispatch(fetchTasks(todo.id))))
     .catch((err) => handleNetworkServerError(dispatch, err));
 };
 
