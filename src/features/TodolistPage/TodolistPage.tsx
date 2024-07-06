@@ -7,7 +7,7 @@ import { useCallback, useEffect } from "react";
 import {
   createTodosTC,
   deleteTodosTC,
-  getTodosTC,
+  fetchTodolists,
   todolistsActions,
   updateTodosTC,
 } from "features/TodolistPage/Todolist/todolistsSlice";
@@ -27,7 +27,7 @@ export const TodolistPage = () => {
 
   useEffect(() => {
     if (!isLoggedIn) return;
-    dispatch(getTodosTC());
+    dispatch(fetchTodolists());
   }, []);
 
   const addTodolist = useCallback(

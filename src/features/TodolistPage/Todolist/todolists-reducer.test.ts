@@ -1,5 +1,11 @@
-import { TodolistDomainType, todolistsActions, todolistsReducer } from "features/TodolistPage/Todolist/todolistsSlice";
+import {
+  fetchTodolists,
+  TodolistDomainType,
+  todolistsActions,
+  todolistsReducer,
+} from "features/TodolistPage/Todolist/todolistsSlice";
 import { v1 } from "uuid";
+import { Action } from "common/types";
 
 let todolistId1: string;
 let todolistId2: string;
@@ -12,11 +18,23 @@ beforeEach(() => {
   todolistId2 = v1();
   todolistId3 = v1();
 
-  //start state
   startState = [
     { id: todolistId1, title: "What to learn", filter: "all", addedDate: "26-02-23", order: 0, entityStatus: "idle" },
     { id: todolistId2, title: "What to buy", filter: "all", addedDate: "26-02-23", order: 0, entityStatus: "idle" },
   ];
+});
+
+test("todolists should be added", () => {
+  const action: Action<typeof fetchTodolists.fulfilled> = {
+    type: fetchTodolists.fulfilled.type,
+    payload: {
+      todolists: startState,
+    },
+  };
+
+  const endState = todolistsReducer([], action);
+
+  expect(endState.length).toBe(2);
 });
 
 test("correct Todolist should be removed", () => {

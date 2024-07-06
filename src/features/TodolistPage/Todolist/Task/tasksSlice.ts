@@ -7,22 +7,16 @@ import {
   UpdateTaskArgs,
   UpdateTaskModelType,
 } from "features/TodolistPage/Todolist/todolistApi";
-import { AppThunk } from "app/store";
 import { appActions, RequestStatusType } from "app/appSlice";
 import { handleAppError, handleNetworkServerError, createAppAsyncThunk } from "common/utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { todolistsActions } from "features/TodolistPage/Todolist/todolistsSlice";
+import { fetchTodolists, todolistsActions } from "features/TodolistPage/Todolist/todolistsSlice";
 import { ResultCode, TaskPriorities, TaskStatuses } from "common/enum";
 
 const slice = createSlice({
   name: "tasks",
   initialState: {} as TaskStateType,
   reducers: {
-    // removeTask: (state, action: PayloadAction<{ todolistId: string; taskId: string }>) => {
-    //   const tasks = state[action.payload.todolistId];
-    //   const index = tasks.findIndex((task) => task.id === action.payload.taskId);
-    //   if (index !== -1) tasks.splice(index, 1);
-    // },
     setTaskEntityStatus: (
       state,
       action: PayloadAction<{
@@ -61,7 +55,7 @@ const slice = createSlice({
       .addCase(todolistsActions.removeTodolist, (state, action) => {
         delete state[action.payload.id];
       })
-      .addCase(todolistsActions.setTodolist, (state, action) => {
+      .addCase(fetchTodolists.fulfilled, (state, action) => {
         action.payload.todolists.forEach((todo) => {
           state[todo.id] = [];
         });
@@ -180,25 +174,6 @@ export const deleteTask = createAppAsyncThunk<DeleteTaskArgs, DeleteTaskArgs>(
     }
   },
 );
-
-// export const deleteTaskTC =
-//   (todolistId: string, taskId: string): AppThunk =>
-//   (dispatch) => {
-//     dispatch(appActions.setAppStatus({ status: "loading" }));
-//     dispatch(tasksActions.setTaskEntityStatus({ todolistId, taskId, entityStatus: "loading" }));
-//     todolistApi
-//       .deleteTask(todolistId, taskId)
-//       .then((res) => {
-//         if (res.data.resultCode === ResultCode.success) {
-//           dispatch(tasksActions.removeTask({ todolistId, taskId }));
-//           dispatch(appActions.setAppStatus({ status: "succeeded" }));
-//           dispatch(tasksActions.setTaskEntityStatus({ todolistId, taskId, entityStatus: "succeeded" }));
-//         } else {
-//           handleAppError(dispatch, res.data);
-//         }
-//       })
-//       .catch((err) => handleNetworkServerError(dispatch, err));
-//   };
 
 export type UpdateDomainTaskModelType = {
   title?: string;
