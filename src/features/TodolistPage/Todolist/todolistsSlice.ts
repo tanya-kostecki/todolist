@@ -1,5 +1,5 @@
 import { FilterValuesType } from "app/App";
-import { todolistApi, TodolistType } from "features/TodolistPage/Todolist/todolistApi";
+import { ChangeTodolistTitleArgs, todolistApi, TodolistType } from "features/TodolistPage/Todolist/todolistApi";
 import { appActions, RequestStatusType } from "app/appSlice";
 import { AppThunk } from "app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
@@ -15,10 +15,10 @@ const slice = createSlice({
   name: "todolists",
   initialState: [] as TodolistDomainType[],
   reducers: {
-    updateTodolistTitle: (state, action: PayloadAction<{ id: string; title: string }>) => {
-      const index = state.findIndex((todo) => todo.id === action.payload.id);
-      if (index !== -1) state[index].title = action.payload.title;
-    },
+    // updateTodolistTitle: (state, action: PayloadAction<{ id: string; title: string }>) => {
+    //   const index = state.findIndex((todo) => todo.id === action.payload.id);
+    //   if (index !== -1) state[index].title = action.payload.title;
+    // },
     changeFilter: (state, action: PayloadAction<{ id: string; filter: FilterValuesType }>) => {
       const index = state.findIndex((todo) => todo.id === action.payload.id);
       if (index !== -1) state[index].filter = action.payload.filter;
@@ -42,6 +42,10 @@ const slice = createSlice({
       })
       .addCase(addTodolist.fulfilled, (state, action) => {
         state.unshift({ ...action.payload.todolist, filter: "all", entityStatus: "idle" });
+      })
+      .addCase(changeTodolistTitle.fulfilled, (state, action) => {
+        const index = state.findIndex((todo) => todo.id === action.payload.todolistId);
+        if (index !== -1) state[index].title = action.payload.title;
       });
   },
 });
@@ -97,20 +101,39 @@ export const addTodolist = createAppAsyncThunk<{ todolist: TodolistType }, strin
   },
 );
 
-export const updateTodosTC =
-  (todolistId: string, title: string): AppThunk =>
-  (dispatch) => {
-    dispatch(appActions.setAppStatus({ status: "loading" }));
-    dispatch(todolistsActions.changeEntityStatus({ todolistId, entityStatus: "loading" }));
-    todolistApi
-      .updateTodolist(todolistId, title)
-      .then((res) => {
-        dispatch(todolistsActions.updateTodolistTitle({ id: todolistId, title }));
-        dispatch(appActions.setAppStatus({ status: "succeeded" }));
-        dispatch(todolistsActions.changeEntityStatus({ todolistId, entityStatus: "succeeded" }));
-      })
-      .catch((err) => handleNetworkServerError(dispatch, err));
-  };
+export const changeTodolistTitle = createAppAsyncThunk<ChangeTodolistTitleArgs, ChangeTodolistTitleArgs>(
+  `${slice.name}/changeTodolistTitle`,
+  async (arg, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    const { todolistId, title } = arg;
+    try {
+      dispatch(appActions.setAppStatus({ status: "loading" }));
+      dispatch(todolistsActions.changeEntityStatus({ todolistId, entityStatus: "loading" }));
+      const res = await todolistApi.updateTodolist(todolistId, title);
+      dispatch(appActions.setAppStatus({ status: "succeeded" }));
+      dispatch(todolistsActions.changeEntityStatus({ todolistId, entityStatus: "succeeded" }));
+      return { todolistId, title };
+    } catch (error) {
+      handleNetworkServerError(dispatch, error);
+      return rejectWithValue(null);
+    }
+  },
+);
+
+// export const updateTodosTC =
+//   (todolistId: string, title: string): AppThunk =>
+//   (dispatch) => {
+//     dispatch(appActions.setAppStatus({ status: "loading" }));
+//     dispatch(todolistsActions.changeEntityStatus({ todolistId, entityStatus: "loading" }));
+//     todolistApi
+//       .updateTodolist(todolistId, title)
+//       .then((res) => {
+//         dispatch(todolistsActions.updateTodolistTitle({ id: todolistId, title }));
+//         dispatch(appActions.setAppStatus({ status: "succeeded" }));
+//         dispatch(todolistsActions.changeEntityStatus({ todolistId, entityStatus: "succeeded" }));
+//       })
+//       .catch((err) => handleNetworkServerError(dispatch, err));
+//   };
 
 export const todolistsReducer = slice.reducer;
 export const todolistsActions = slice.actions;

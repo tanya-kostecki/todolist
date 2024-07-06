@@ -1,5 +1,6 @@
 import {
   addTodolist,
+  changeTodolistTitle,
   deleteTodolist,
   fetchTodolists,
   TodolistDomainType,
@@ -81,10 +82,14 @@ test("correct Todolist should be added", () => {
 });
 
 test("correct Todolist should change its name", () => {
-  const endState = todolistsReducer(
-    startState,
-    todolistsActions.updateTodolistTitle({ id: todolistId2, title: "New Title" }),
-  );
+  const action: Action<typeof changeTodolistTitle.fulfilled> = {
+    type: changeTodolistTitle.fulfilled.type,
+    payload: {
+      todolistId: todolistId2,
+      title: "New Title",
+    },
+  };
+  const endState = todolistsReducer(startState, action);
 
   //expected results
   expect(endState[0].title).toBe("What to learn");

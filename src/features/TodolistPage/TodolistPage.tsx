@@ -6,10 +6,10 @@ import { AppRootStateType, useAppDispatch } from "app/store";
 import { useCallback, useEffect } from "react";
 import {
   addTodolist,
+  changeTodolistTitle,
   deleteTodolist,
   fetchTodolists,
   todolistsActions,
-  updateTodosTC,
 } from "features/TodolistPage/Todolist/todolistsSlice";
 import { FilterValuesType, TaskStateType, TodolistType } from "app/App";
 import { addTask, deleteTask, updateTask } from "features/TodolistPage/Todolist/Task/tasksSlice";
@@ -80,8 +80,8 @@ export const TodolistPage = () => {
   );
 
   const updateTodolistTitle = useCallback(
-    (todolistID: string, newTitle: string) => {
-      dispatch(updateTodosTC(todolistID, newTitle));
+    (todolistId: string, title: string) => {
+      dispatch(changeTodolistTitle({ todolistId, title }));
     },
     [dispatch],
   );
