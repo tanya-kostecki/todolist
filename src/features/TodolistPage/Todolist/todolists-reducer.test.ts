@@ -1,4 +1,5 @@
 import {
+  deleteTodolist,
   fetchTodolists,
   TodolistDomainType,
   todolistsActions,
@@ -38,7 +39,13 @@ test("todolists should be added", () => {
 });
 
 test("correct Todolist should be removed", () => {
-  const endState = todolistsReducer(startState, todolistsActions.removeTodolist({ id: todolistId1 }));
+  const action: Action<typeof deleteTodolist.fulfilled> = {
+    type: deleteTodolist.fulfilled.type,
+    payload: {
+      todolistId: todolistId1,
+    },
+  };
+  const endState = todolistsReducer(startState, action);
 
   //expected results
   expect(endState.length).toBe(1);

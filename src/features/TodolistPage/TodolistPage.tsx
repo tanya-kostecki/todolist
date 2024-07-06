@@ -6,7 +6,7 @@ import { AppRootStateType, useAppDispatch } from "app/store";
 import { useCallback, useEffect } from "react";
 import {
   createTodosTC,
-  deleteTodosTC,
+  deleteTodolist,
   fetchTodolists,
   todolistsActions,
   updateTodosTC,
@@ -66,8 +66,8 @@ export const TodolistPage = () => {
   );
 
   const removeTodolist = useCallback(
-    (todolistID: string) => {
-      dispatch(deleteTodosTC(todolistID));
+    (todolistId: string) => {
+      dispatch(deleteTodolist({ todolistId }));
     },
     [dispatch],
   );

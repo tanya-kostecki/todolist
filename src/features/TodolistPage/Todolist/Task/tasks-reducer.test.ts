@@ -7,7 +7,7 @@ import {
   updateTask,
 } from "features/TodolistPage/Todolist/Task/tasksSlice";
 import { TaskStateType } from "app/App";
-import { todolistsActions } from "features/TodolistPage/Todolist/todolistsSlice";
+import { deleteTodolist, todolistsActions } from "features/TodolistPage/Todolist/todolistsSlice";
 import { Action } from "common/types";
 import { TaskPriorities, TaskStatuses } from "common/enum";
 
@@ -185,8 +185,12 @@ test("new array should be added when new Todolist is added", () => {
 });
 
 test("property with todolistId should be deleted", () => {
-  // const action = removeTodolistAC("todolistID2");
-  const action = todolistsActions.removeTodolist({ id: "todolistID2" });
+  const action: Action<typeof deleteTodolist.fulfilled> = {
+    type: deleteTodolist.fulfilled.type,
+    payload: {
+      todolistId: "todolistID2",
+    },
+  };
 
   const endState = tasksReducer(initialState, action);
 

@@ -10,7 +10,7 @@ import {
 import { appActions, RequestStatusType } from "app/appSlice";
 import { handleAppError, handleNetworkServerError, createAppAsyncThunk } from "common/utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchTodolists, todolistsActions } from "features/TodolistPage/Todolist/todolistsSlice";
+import { deleteTodolist, fetchTodolists, todolistsActions } from "features/TodolistPage/Todolist/todolistsSlice";
 import { ResultCode, TaskPriorities, TaskStatuses } from "common/enum";
 
 const slice = createSlice({
@@ -52,8 +52,8 @@ const slice = createSlice({
       .addCase(todolistsActions.addTodolist, (state, action) => {
         state[action.payload.todolist.id] = [];
       })
-      .addCase(todolistsActions.removeTodolist, (state, action) => {
-        delete state[action.payload.id];
+      .addCase(deleteTodolist.fulfilled, (state, action) => {
+        delete state[action.payload.todolistId];
       })
       .addCase(fetchTodolists.fulfilled, (state, action) => {
         action.payload.todolists.forEach((todo) => {
