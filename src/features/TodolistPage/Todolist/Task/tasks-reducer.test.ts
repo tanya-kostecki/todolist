@@ -7,7 +7,7 @@ import {
   updateTask,
 } from "features/TodolistPage/Todolist/Task/tasksSlice";
 import { TaskStateType } from "app/App";
-import { deleteTodolist, todolistsActions } from "features/TodolistPage/Todolist/todolistsSlice";
+import { addTodolist, deleteTodolist, todolistsActions } from "features/TodolistPage/Todolist/todolistsSlice";
 import { Action } from "common/types";
 import { TaskPriorities, TaskStatuses } from "common/enum";
 
@@ -162,15 +162,17 @@ test("title of specified task should be changed", () => {
 });
 
 test("new array should be added when new Todolist is added", () => {
-  // const action = addTodolistAC("new Todolist", "todolistID1");
-  const action = todolistsActions.addTodolist({
-    todolist: {
-      id: "blabla",
-      title: "new Todolist",
-      order: 0,
-      addedDate: "",
+  const action: Action<typeof addTodolist.fulfilled> = {
+    type: addTodolist.fulfilled.type,
+    payload: {
+      todolist: {
+        id: "blabla",
+        title: "new Todolist",
+        order: 0,
+        addedDate: "",
+      },
     },
-  });
+  };
 
   const endState = tasksReducer(initialState, action);
 

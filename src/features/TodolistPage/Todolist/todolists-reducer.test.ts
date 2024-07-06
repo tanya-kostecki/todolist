@@ -1,4 +1,5 @@
 import {
+  addTodolist,
   deleteTodolist,
   fetchTodolists,
   TodolistDomainType,
@@ -61,7 +62,18 @@ test("correct Todolist should be added", () => {
     order: 0,
     entityStatus: "idle",
   };
-  const endState = todolistsReducer(startState, todolistsActions.addTodolist({ todolist: newTodo }));
+  const action: Action<typeof addTodolist.fulfilled> = {
+    type: addTodolist.fulfilled.type,
+    payload: {
+      todolist: {
+        id: todolistId3,
+        title: "New Todolist",
+        addedDate: "26-02-23",
+        order: 0,
+      },
+    },
+  };
+  const endState = todolistsReducer(startState, action);
 
   //expected results
   expect(endState.length).toBe(3);

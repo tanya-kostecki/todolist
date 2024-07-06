@@ -3,6 +3,7 @@ import { UpdateDomainTaskModelType } from "features/TodolistPage/Todolist/Task/t
 import { instance } from "common/instance/instance";
 import { BaseResponse } from "common/types";
 import { TaskPriorities, TaskStatuses } from "common/enum";
+import { AxiosResponse, AxiosError } from "axios";
 
 export const todolistApi = {
   getTodolists() {

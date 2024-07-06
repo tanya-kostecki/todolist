@@ -5,7 +5,7 @@ import { TodoList } from "features/TodolistPage/Todolist/TodoList";
 import { AppRootStateType, useAppDispatch } from "app/store";
 import { useCallback, useEffect } from "react";
 import {
-  createTodosTC,
+  addTodolist,
   deleteTodolist,
   fetchTodolists,
   todolistsActions,
@@ -30,9 +30,9 @@ export const TodolistPage = () => {
     dispatch(fetchTodolists());
   }, []);
 
-  const addTodolist = useCallback(
+  const addTodolistHandler = useCallback(
     (title: string) => {
-      dispatch(createTodosTC(title));
+      dispatch(addTodolist(title));
     },
     [dispatch],
   );
@@ -91,7 +91,7 @@ export const TodolistPage = () => {
   return (
     <>
       <Grid container sx={{ mb: "30px" }}>
-        <AddItemForm addItem={addTodolist} />
+        <AddItemForm addItem={addTodolistHandler} />
       </Grid>
       <Grid container spacing={4}>
         {todolists.map((tl) => {
