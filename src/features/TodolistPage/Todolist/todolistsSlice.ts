@@ -1,7 +1,6 @@
 import { FilterValuesType } from "app/App";
 import { ChangeTodolistTitleArgs, todolistApi, TodolistType } from "features/TodolistPage/Todolist/todolistApi";
 import { appActions, RequestStatusType } from "app/appSlice";
-import { AppThunk } from "app/store";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchTasks } from "features/TodolistPage/Todolist/Task/tasksSlice";
 import { createAppAsyncThunk, handleNetworkServerError } from "common/utils";
@@ -15,10 +14,6 @@ const slice = createSlice({
   name: "todolists",
   initialState: [] as TodolistDomainType[],
   reducers: {
-    // updateTodolistTitle: (state, action: PayloadAction<{ id: string; title: string }>) => {
-    //   const index = state.findIndex((todo) => todo.id === action.payload.id);
-    //   if (index !== -1) state[index].title = action.payload.title;
-    // },
     changeFilter: (state, action: PayloadAction<{ id: string; filter: FilterValuesType }>) => {
       const index = state.findIndex((todo) => todo.id === action.payload.id);
       if (index !== -1) state[index].filter = action.payload.filter;
@@ -119,21 +114,6 @@ export const changeTodolistTitle = createAppAsyncThunk<ChangeTodolistTitleArgs, 
     }
   },
 );
-
-// export const updateTodosTC =
-//   (todolistId: string, title: string): AppThunk =>
-//   (dispatch) => {
-//     dispatch(appActions.setAppStatus({ status: "loading" }));
-//     dispatch(todolistsActions.changeEntityStatus({ todolistId, entityStatus: "loading" }));
-//     todolistApi
-//       .updateTodolist(todolistId, title)
-//       .then((res) => {
-//         dispatch(todolistsActions.updateTodolistTitle({ id: todolistId, title }));
-//         dispatch(appActions.setAppStatus({ status: "succeeded" }));
-//         dispatch(todolistsActions.changeEntityStatus({ todolistId, entityStatus: "succeeded" }));
-//       })
-//       .catch((err) => handleNetworkServerError(dispatch, err));
-//   };
 
 export const todolistsReducer = slice.reducer;
 export const todolistsActions = slice.actions;
