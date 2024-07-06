@@ -12,7 +12,7 @@ import {
   updateTodosTC,
 } from "features/TodolistPage/Todolist/todolistsSlice";
 import { FilterValuesType, TaskStateType, TodolistType } from "app/App";
-import { addTask, deleteTaskTC, updateTask } from "features/TodolistPage/Todolist/Task/tasksSlice";
+import { addTask, deleteTask, updateTask } from "features/TodolistPage/Todolist/Task/tasksSlice";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "features/login/model/authSlice";
@@ -38,8 +38,8 @@ export const TodolistPage = () => {
   );
 
   const removeTasks = useCallback(
-    (todolistID: string, taskID: string) => {
-      dispatch(deleteTaskTC(todolistID, taskID));
+    (todolistId: string, taskId: string) => {
+      dispatch(deleteTask({ todolistId, taskId }));
     },
     [dispatch],
   );

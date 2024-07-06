@@ -20,7 +20,8 @@ export const todolistApi = {
   getTasks(todolistId: string) {
     return instance.get<GetTasksResponse>(`todo-lists/${todolistId}/tasks`);
   },
-  deleteTask(todolistId: string, taskId: string) {
+  deleteTask(arg: DeleteTaskArgs) {
+    const { todolistId, taskId } = arg;
     return instance.delete<BaseResponse>(`todo-lists/${todolistId}/tasks/${taskId}`);
   },
   createTask(arg: CreateTaskArgs) {
@@ -36,6 +37,11 @@ export const todolistApi = {
 export type CreateTaskArgs = {
   todolistId: string;
   title: string;
+};
+
+export type DeleteTaskArgs = {
+  todolistId: string;
+  taskId: string;
 };
 
 export type UpdateTaskArgs = {

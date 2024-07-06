@@ -1,6 +1,7 @@
 import { UpdateTaskModelType } from "features/TodolistPage/Todolist/todolistApi";
 import {
   addTask,
+  deleteTask,
   fetchTasks,
   tasksActions,
   tasksReducer,
@@ -100,7 +101,14 @@ beforeEach(() => {
 });
 
 test("correct task should be deleted", () => {
-  const endState = tasksReducer(initialState, tasksActions.removeTask({ todolistId: "todolistID2", taskId: "2" }));
+  const action: Action<typeof deleteTask.fulfilled> = {
+    type: deleteTask.fulfilled.type,
+    payload: {
+      taskId: "2",
+      todolistId: "todolistID2",
+    },
+  };
+  const endState = tasksReducer(initialState, action);
 
   expect(endState["todolistID1"].length).toBe(3);
   expect(endState["todolistID2"].length).toBe(2);
