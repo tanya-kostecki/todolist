@@ -40,7 +40,8 @@ export const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsTyp
         dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return { isLoggedIn: true };
       } else {
-        handleAppError(dispatch, res.data, false);
+        const isShowAppError = !res.data.fieldsErrors.length;
+        handleAppError(dispatch, res.data, isShowAppError);
         return rejectWithValue(res.data);
       }
     } catch (error) {

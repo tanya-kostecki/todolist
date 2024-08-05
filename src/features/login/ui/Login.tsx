@@ -47,7 +47,6 @@ export const Login = () => {
       dispatch(login(values))
         .unwrap()
         .catch((error: BaseResponse) => {
-          console.log(error.fieldsErrors);
           error.fieldsErrors?.forEach((el) => formikHelpers.setFieldError(el.field, el.error));
         });
       // formik.resetForm();
