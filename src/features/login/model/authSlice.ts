@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { appActions } from "app/appSlice";
 import { todolistsActions } from "features/TodolistPage/Todolist/todolistsSlice";
 import { authAPI, LoginParamsType } from "features/login/api/authApi";
+import { ResultCode } from "common/enum";
 
 const slice = createSlice({
   name: "auth",
@@ -35,12 +36,12 @@ export const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsTyp
     try {
       dispatch(appActions.setAppStatus({ status: "loading" }));
       const res = await authAPI.login(arg);
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.success) {
         dispatch(appActions.setAppStatus({ status: "succeeded" }));
         return { isLoggedIn: true };
       } else {
-        handleAppError(dispatch, res.data);
-        return rejectWithValue(null);
+        handleAppError(dispatch, res.data, false);
+        return rejectWithValue(res.data);
       }
     } catch (error) {
       handleNetworkServerError(dispatch, error);
@@ -55,10 +56,10 @@ export const me = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>(`${sli
     dispatch(appActions.setAppStatus({ status: "loading" }));
     const res = await authAPI.me();
     dispatch(appActions.setAppStatus({ status: "succeeded" }));
-    if (res.data.resultCode === 0) {
+    if (res.data.resultCode === ResultCode.success) {
       return { isLoggedIn: true };
     } else {
-      handleAppError(dispatch, res.data);
+      handleAppError(dispatch, res.data, false);
       return rejectWithValue(null);
     }
   } catch (error) {
@@ -76,7 +77,7 @@ export const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>(
     try {
       dispatch(appActions.setAppStatus({ status: "loading" }));
       const res = await authAPI.logout();
-      if (res.data.resultCode === 0) {
+      if (res.data.resultCode === ResultCode.success) {
         dispatch(todolistsActions.clearTodosData());
         dispatch(appActions.setAppStatus({ status: "idle" }));
         return { isLoggedIn: false };

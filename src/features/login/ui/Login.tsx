@@ -12,6 +12,7 @@ import { AppRootStateType, useAppDispatch } from "app/store";
 import { Navigate } from "react-router-dom";
 import { login, selectIsLoggedIn } from "features/login/model/authSlice";
 import { useSelector } from "react-redux";
+import { BaseResponse } from "common/types";
 
 type ErrorsType = {
   email?: string;
@@ -20,6 +21,7 @@ type ErrorsType = {
 
 export const Login = () => {
   const dispatch = useAppDispatch();
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(selectIsLoggedIn);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -40,12 +42,18 @@ export const Login = () => {
       }
       return errors;
     },
-    onSubmit: (values) => {
-      dispatch(login(values));
-      formik.resetForm();
+
+    onSubmit: (values, formikHelpers) => {
+      dispatch(login(values))
+        .unwrap()
+        .catch((error: BaseResponse) => {
+          console.log(error.fieldsErrors);
+          error.fieldsErrors?.forEach((el) => formikHelpers.setFieldError(el.field, el.error));
+        });
+      // formik.resetForm();
     },
   });
-  const isLoggedIn = useSelector<AppRootStateType, boolean>(selectIsLoggedIn);
+
   if (isLoggedIn) return <Navigate to="/todolists" />;
 
   return (
