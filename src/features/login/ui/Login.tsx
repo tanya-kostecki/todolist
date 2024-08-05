@@ -10,7 +10,7 @@ import Button from "@mui/material/Button";
 import { useFormik } from "formik";
 import { AppRootStateType, useAppDispatch } from "app/store";
 import { Navigate } from "react-router-dom";
-import { loginTC } from "features/login/model/authSlice";
+import { login, selectIsLoggedIn } from "features/login/model/authSlice";
 import { useSelector } from "react-redux";
 
 type ErrorsType = {
@@ -41,11 +41,11 @@ export const Login = () => {
       return errors;
     },
     onSubmit: (values) => {
-      dispatch(loginTC(values));
+      dispatch(login(values));
       formik.resetForm();
     },
   });
-  const isLoggedIn = useSelector<AppRootStateType, boolean>((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useSelector<AppRootStateType, boolean>(selectIsLoggedIn);
   if (isLoggedIn) return <Navigate to="/todolists" />;
 
   return (

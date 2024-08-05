@@ -69,6 +69,9 @@ const slice = createSlice({
         return {};
       });
   },
+  selectors: {
+    selectTasks: (sliceState) => sliceState,
+  },
 });
 
 //thunk creators
@@ -191,3 +194,4 @@ export type UpdateDomainTaskModelType = {
 
 export const tasksReducer = slice.reducer;
 export const tasksActions = slice.actions;
+export const { selectTasks } = slice.selectors;

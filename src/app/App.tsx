@@ -15,7 +15,7 @@ import { TaskType } from "features/TodolistPage/Todolist/todolistApi";
 import { CircularProgress, LinearProgress } from "@mui/material";
 import { RequestStatusType, selectIsInitialized, selectStatus } from "app/appSlice";
 import { Outlet } from "react-router-dom";
-import { logoutTC, meTC, selectIsLoggedIn } from "features/login/model/authSlice";
+import { logout, me, selectIsLoggedIn } from "features/login/model/authSlice";
 import { useSelector } from "react-redux";
 import { CustomizedSnackbars } from "common/components";
 
@@ -53,7 +53,7 @@ function App() {
   const changeModeHandler = () => setThemeMode(themeMode === "light" ? "dark" : "light");
 
   useEffect(() => {
-    dispatch(meTC());
+    dispatch(me());
   }, []);
 
   if (!isInitialized) {
@@ -65,7 +65,7 @@ function App() {
   }
 
   const logoutHandler = () => {
-    dispatch(logoutTC());
+    dispatch(logout());
   };
 
   return (

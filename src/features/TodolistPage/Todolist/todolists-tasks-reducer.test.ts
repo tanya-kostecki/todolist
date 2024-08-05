@@ -1,8 +1,7 @@
 import { TaskStateType } from "app/App";
-import { addTodolist, TodolistDomainType, todolistsActions } from "features/TodolistPage/Todolist/todolistsSlice";
+import { addTodolist, TodolistDomainType } from "features/TodolistPage/Todolist/todolistsSlice";
 import { tasksReducer } from "features/TodolistPage/Todolist/Task/tasksSlice";
 import { todolistsReducer } from "features/TodolistPage/Todolist/todolistsSlice";
-import { TodolistType } from "features/TodolistPage/Todolist/todolistApi";
 import { Action } from "common/types";
 
 test("ids should be equal", () => {

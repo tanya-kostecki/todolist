@@ -43,6 +43,9 @@ const slice = createSlice({
         if (index !== -1) state[index].title = action.payload.title;
       });
   },
+  selectors: {
+    selectTodolists: (sliceState) => sliceState,
+  },
 });
 
 //thunk creators
@@ -117,3 +120,4 @@ export const changeTodolistTitle = createAppAsyncThunk<ChangeTodolistTitleArgs, 
 
 export const todolistsReducer = slice.reducer;
 export const todolistsActions = slice.actions;
+export const { selectTodolists } = slice.selectors;

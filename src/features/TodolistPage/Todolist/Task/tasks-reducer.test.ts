@@ -7,7 +7,7 @@ import {
   updateTask,
 } from "features/TodolistPage/Todolist/Task/tasksSlice";
 import { TaskStateType } from "app/App";
-import { addTodolist, deleteTodolist, todolistsActions } from "features/TodolistPage/Todolist/todolistsSlice";
+import { addTodolist, deleteTodolist } from "features/TodolistPage/Todolist/todolistsSlice";
 import { Action } from "common/types";
 import { TaskPriorities, TaskStatuses } from "common/enum";
 
