@@ -1,10 +1,9 @@
-import { createAppAsyncThunk, handleAppError, handleNetworkServerError } from "common/utils";
+import { createAppAsyncThunk, handleAppError, thunkTryCatch } from "common/utils";
 import { createSlice } from "@reduxjs/toolkit";
 import { appActions } from "app/appSlice";
 import { todolistsActions } from "features/TodolistPage/Todolist/todolistsSlice";
 import { authAPI, LoginParamsType } from "features/login/api/authApi";
 import { ResultCode } from "common/enum";
-import { thunkTryCatch } from "common/utils/thunTryCatch";
 
 const slice = createSlice({
   name: "auth",

@@ -1,10 +1,9 @@
 import { FilterValuesType } from "app/App";
 import { ChangeTodolistTitleArgs, todolistApi, TodolistType } from "features/TodolistPage/Todolist/todolistApi";
-import { appActions, RequestStatusType } from "app/appSlice";
+import { RequestStatusType } from "app/appSlice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchTasks } from "features/TodolistPage/Todolist/Task/tasksSlice";
-import { createAppAsyncThunk, handleAppError, handleNetworkServerError } from "common/utils";
-import { thunkTryCatch } from "common/utils/thunTryCatch";
+import { createAppAsyncThunk, handleAppError, thunkTryCatch } from "common/utils";
 import { ResultCode } from "common/enum";
 
 export type TodolistDomainType = TodolistType & {

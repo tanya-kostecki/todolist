@@ -7,8 +7,8 @@ import {
   UpdateTaskArgs,
   UpdateTaskModelType,
 } from "features/TodolistPage/Todolist/todolistApi";
-import { appActions, RequestStatusType } from "app/appSlice";
-import { handleAppError, handleNetworkServerError, createAppAsyncThunk } from "common/utils";
+import { RequestStatusType } from "app/appSlice";
+import { handleAppError, createAppAsyncThunk, thunkTryCatch } from "common/utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   addTodolist,
@@ -17,7 +17,6 @@ import {
   todolistsActions,
 } from "features/TodolistPage/Todolist/todolistsSlice";
 import { ResultCode } from "common/enum";
-import { thunkTryCatch } from "common/utils/thunTryCatch";
 
 const slice = createSlice({
   name: "tasks",
