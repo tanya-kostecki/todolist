@@ -28,9 +28,7 @@ export type TodolistType = {
   entityStatus: RequestStatusType;
 };
 
-export type TaskStateType = {
-  [key: string]: TaskType[];
-};
+export type TaskStateType = Record<string, TaskType[]>;
 export type FilterValuesType = "all" | "completed" | "active";
 
 function App() {
