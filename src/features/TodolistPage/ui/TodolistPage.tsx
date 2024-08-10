@@ -6,24 +6,17 @@ import { AppRootStateType, useAppDispatch } from "app/store";
 import { useCallback, useEffect } from "react";
 import {
   addTodolist,
-  changeTodolistTitle,
-  deleteTodolist,
   fetchTodolists,
   selectTodolists,
   TodolistDomainType,
-  todolistsActions,
 } from "features/TodolistPage/model/todolistsSlice";
-import { FilterValuesType, TaskStateType } from "app/App";
-import { addTask, deleteTask, selectTasks, updateTask } from "features/TodolistPage/model/tasksSlice";
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { selectIsLoggedIn } from "features/login/model/authSlice";
 import { AddItemForm } from "common/components";
-import { TaskStatuses } from "common/enum";
 
 export const TodolistPage = () => {
   const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(selectTodolists);
-  const tasks = useSelector<AppRootStateType, TaskStateType>(selectTasks);
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const dispatch = useAppDispatch();
 
@@ -35,55 +28,6 @@ export const TodolistPage = () => {
   const addTodolistHandler = useCallback(
     (title: string) => {
       dispatch(addTodolist(title));
-    },
-    [dispatch],
-  );
-
-  const removeTasks = useCallback(
-    (todolistId: string, taskId: string) => {
-      dispatch(deleteTask({ todolistId, taskId }));
-    },
-    [dispatch],
-  );
-
-  const changeFilter = useCallback(
-    (todolistID: string, filter: FilterValuesType) => {
-      dispatch(todolistsActions.changeFilter({ id: todolistID, filter }));
-    },
-    [dispatch],
-  );
-
-  const addTaskHandler = useCallback(
-    (todolistId: string, title: string) => {
-      dispatch(addTask({ todolistId, title }));
-    },
-    [dispatch],
-  );
-
-  const changeTaskStatus = useCallback(
-    (todolistId: string, taskId: string, status: TaskStatuses) => {
-      dispatch(updateTask({ taskId, todolistId, domainModel: { status } }));
-    },
-    [dispatch],
-  );
-
-  const removeTodolist = useCallback(
-    (todolistId: string) => {
-      dispatch(deleteTodolist({ todolistId }));
-    },
-    [dispatch],
-  );
-
-  const updateTaskTitle = useCallback(
-    (todolistId: string, taskId: string, title: string) => {
-      dispatch(updateTask({ todolistId, taskId, domainModel: { title } }));
-    },
-    [dispatch],
-  );
-
-  const updateTodolistTitle = useCallback(
-    (todolistId: string, title: string) => {
-      dispatch(changeTodolistTitle({ todolistId, title }));
     },
     [dispatch],
   );
@@ -100,21 +44,7 @@ export const TodolistPage = () => {
           return (
             <Grid item key={tl.id}>
               <Paper elevation={5} sx={{ p: "20px" }}>
-                <TodoList
-                  key={tl.id}
-                  todolistID={tl.id}
-                  tasks={tasks[tl.id]}
-                  title={tl.title}
-                  removeTasks={removeTasks}
-                  changeFilter={changeFilter}
-                  filter={tl.filter}
-                  addTask={addTaskHandler}
-                  changeTaskStatus={changeTaskStatus}
-                  removeTodolist={removeTodolist}
-                  updateTaskTitle={updateTaskTitle}
-                  updateTodolistTitle={updateTodolistTitle}
-                  entityStatus={tl.entityStatus}
-                />
+                <TodoList todolist={tl} />
               </Paper>
             </Grid>
           );

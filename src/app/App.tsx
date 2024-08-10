@@ -78,7 +78,6 @@ function App() {
         </Toolbar>
         {status === "loading" && <LinearProgress color={"secondary"} />}
       </AppBar>
-
       <Container fixed>
         <Outlet />
       </Container>

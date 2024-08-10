@@ -1,134 +1,32 @@
-import React, { memo, useCallback, useMemo } from "react";
-import { FilterValuesType } from "app/App";
-import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import { Box, SxProps } from "@mui/material";
-import { Task } from "features/TodolistPage/ui/Todolist/Task/Task";
-import { RequestStatusType } from "app/appSlice";
-import { AddItemForm, EditableSpan } from "common/components";
-import { TaskStatuses } from "common/enum";
-import { TaskType } from "features/TodolistPage/api/tasksApi.types";
+import React from "react";
+import { SxProps } from "@mui/material";
+import { AddItemForm } from "common/components";
+import { TodolistDomainType } from "features/TodolistPage/model/todolistsSlice";
+import { addTask } from "features/TodolistPage/model/tasksSlice";
+import { useAppDispatch } from "app/store";
+import { Tasks } from "features/TodolistPage/ui/Todolist/Tasks/Tasks";
+import { FilterButtons } from "features/TodolistPage/ui/Todolist/FilterButtons/FilterButtons";
+import { TodolistTitle } from "features/TodolistPage/ui/Todolist/TodolistTitle/TodolistTitle";
 
 export const FilterButtonContainerSx: SxProps = { display: "flex", justifyContent: "space-between" };
 
-type TodoListPropsType = {
-  todolistID: string;
-  tasks: TaskType[];
-  removeTasks: (todolistID: string, id: string) => void;
-  changeFilter: (todolistID: string, value: FilterValuesType) => void;
-  title: string;
-  addTask: (todolistID: string, title: string) => void;
-  changeTaskStatus: (todolistID: string, taskId: string, taskStatus: TaskStatuses) => void;
-  filter: string;
-  removeTodolist: (todolistID: string) => void;
-  updateTaskTitle: (todoListID: string, taskID: string, newTitle: string) => void;
-  updateTodolistTitle: (todolistID: string, newTitle: string) => void;
-  entityStatus: RequestStatusType;
+type Props = {
+  todolist: TodolistDomainType;
 };
-export const TodoList = memo(
-  ({
-    todolistID,
-    tasks,
-    removeTasks,
-    changeFilter,
-    title,
-    addTask,
-    changeTaskStatus,
-    filter,
-    removeTodolist,
-    updateTaskTitle,
-    updateTodolistTitle,
-    entityStatus,
-  }: TodoListPropsType) => {
-    const removeTodolistHandler = () => {
-      removeTodolist(todolistID);
-    };
 
-    const addTaskHandler = useCallback(
-      (title: string) => {
-        addTask(todolistID, title);
-      },
-      [addTask, todolistID],
-    );
+export const TodoList = ({ todolist }: Props) => {
+  const dispatch = useAppDispatch();
 
-    const updateTodolistTitleHandler = useCallback(
-      (newTitle: string) => {
-        updateTodolistTitle(todolistID, newTitle);
-      },
-      [todolistID, updateTodolistTitle],
-    );
+  const addTaskHandler = (title: string) => {
+    dispatch(addTask({ todolistId: todolist.id, title }));
+  };
 
-    const onActiveClickHandler = useCallback(() => {
-      changeFilter(todolistID, "active");
-    }, [todolistID, changeFilter]);
-    const onAllClickHandler = useCallback(() => {
-      changeFilter(todolistID, "all");
-    }, [todolistID, changeFilter]);
-    const onCompletedClickHandler = useCallback(() => {
-      changeFilter(todolistID, "completed");
-    }, [todolistID, changeFilter]);
-
-    let filteredTasks = tasks;
-    filteredTasks = useMemo(() => {
-      if (filter === "completed") {
-        filteredTasks = tasks.filter((task) => task.status === 2);
-      }
-      if (filter === "active") {
-        filteredTasks = tasks.filter((task) => task.status === 0);
-      }
-      return filteredTasks;
-    }, [tasks, filter]);
-
-    return (
-      <div>
-        <h3>
-          <EditableSpan
-            oldTitle={title}
-            updateTitle={updateTodolistTitleHandler}
-            disabled={entityStatus === "loading"}
-          />
-          <IconButton aria-label="delete" onClick={removeTodolistHandler} disabled={entityStatus === "loading"}>
-            <DeleteIcon />
-          </IconButton>
-        </h3>
-        <AddItemForm addItem={addTaskHandler} disabled={entityStatus === "loading"} />
-        {!filteredTasks.length ? (
-          <p>No tasks</p>
-        ) : (
-          <List>
-            {filteredTasks.map((task) => {
-              return (
-                <Task
-                  key={task.id}
-                  todolistID={todolistID}
-                  task={task}
-                  removeTasks={removeTasks}
-                  changeTaskStatus={changeTaskStatus}
-                  updateTaskTitle={updateTaskTitle}
-                  disabled={entityStatus === "loading"}
-                />
-              );
-            })}
-          </List>
-        )}
-        <Box sx={FilterButtonContainerSx}>
-          <Button variant={filter === "all" ? "contained" : "text"} color="secondary" onClick={onAllClickHandler}>
-            All
-          </Button>
-          <Button variant={filter === "active" ? "contained" : "text"} color="error" onClick={onActiveClickHandler}>
-            Active
-          </Button>
-          <Button
-            variant={filter === "completed" ? "contained" : "text"}
-            color="primary"
-            onClick={onCompletedClickHandler}
-          >
-            Completed
-          </Button>
-        </Box>
-      </div>
-    );
-  },
-);
+  return (
+    <>
+      <TodolistTitle todolist={todolist} />
+      <AddItemForm addItem={addTaskHandler} disabled={todolist.entityStatus === "loading"} />
+      <Tasks todolist={todolist} />
+      <FilterButtons todolist={todolist} />
+    </>
+  );
+};
