@@ -1,15 +1,9 @@
-import { UpdateTaskModelType } from "features/TodolistPage/Todolist/todolistApi";
-import {
-  addTask,
-  deleteTask,
-  fetchTasks,
-  tasksReducer,
-  updateTask,
-} from "features/TodolistPage/Todolist/Task/tasksSlice";
+import { addTask, deleteTask, fetchTasks, tasksReducer, updateTask } from "features/TodolistPage/model/tasksSlice";
 import { TaskStateType } from "app/App";
-import { addTodolist, deleteTodolist } from "features/TodolistPage/Todolist/todolistsSlice";
+import { addTodolist, deleteTodolist } from "features/TodolistPage/model/todolistsSlice";
 import { Action } from "common/types";
 import { TaskPriorities, TaskStatuses } from "common/enum";
+import { UpdateTaskModelType } from "features/TodolistPage/api/tasksApi.types";
 
 let initialState: TaskStateType;
 beforeEach(() => {

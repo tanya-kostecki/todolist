@@ -1,10 +1,11 @@
 import { FilterValuesType } from "app/App";
-import { ChangeTodolistTitleArgs, todolistApi, TodolistType } from "features/TodolistPage/Todolist/todolistApi";
+import { todolistApi } from "features/TodolistPage/api/todolistApi";
 import { RequestStatusType } from "app/appSlice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchTasks } from "features/TodolistPage/Todolist/Task/tasksSlice";
+import { fetchTasks } from "features/TodolistPage/model/tasksSlice";
 import { createAppAsyncThunk, handleAppError, thunkTryCatch } from "common/utils";
 import { ResultCode } from "common/enum";
+import { ChangeTodolistTitleArgs, TodolistType } from "features/TodolistPage/api/todolistApi.types";
 
 export type TodolistDomainType = TodolistType & {
   filter: FilterValuesType;
@@ -23,7 +24,7 @@ const slice = createSlice({
       const index = state.findIndex((todo) => todo.id === action.payload.todolistId);
       if (index !== -1) state[index].entityStatus = action.payload.entityStatus;
     },
-    clearTodosData: (state, action: PayloadAction) => {
+    clearTodosData: () => {
       return [];
     },
   },

@@ -2,16 +2,16 @@ import React, { memo, useCallback, useMemo } from "react";
 import { FilterValuesType } from "app/App";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Button, { ButtonProps } from "@mui/material/Button";
+import Button from "@mui/material/Button";
 import List from "@mui/material/List";
-import { Box } from "@mui/material";
-import { FilterButtonContainerSx } from "features/TodolistPage/Todolist/Todolist.styles";
-import { Task } from "features/TodolistPage/Todolist/Task/Task";
-import { TaskType } from "features/TodolistPage/Todolist/todolistApi";
-import { useAppDispatch } from "app/store";
+import { Box, SxProps } from "@mui/material";
+import { Task } from "features/TodolistPage/ui/Todolist/Task/Task";
 import { RequestStatusType } from "app/appSlice";
 import { AddItemForm, EditableSpan } from "common/components";
 import { TaskStatuses } from "common/enum";
+import { TaskType } from "features/TodolistPage/api/tasksApi.types";
+
+export const FilterButtonContainerSx: SxProps = { display: "flex", justifyContent: "space-between" };
 
 type TodoListPropsType = {
   todolistID: string;
@@ -23,7 +23,6 @@ type TodoListPropsType = {
   changeTaskStatus: (todolistID: string, taskId: string, taskStatus: TaskStatuses) => void;
   filter: string;
   removeTodolist: (todolistID: string) => void;
-
   updateTaskTitle: (todoListID: string, taskID: string, newTitle: string) => void;
   updateTodolistTitle: (todolistID: string, newTitle: string) => void;
   entityStatus: RequestStatusType;
@@ -43,8 +42,6 @@ export const TodoList = memo(
     updateTodolistTitle,
     entityStatus,
   }: TodoListPropsType) => {
-    const dispatch = useAppDispatch();
-
     const removeTodolistHandler = () => {
       removeTodolist(todolistID);
     };
@@ -116,38 +113,22 @@ export const TodoList = memo(
             })}
           </List>
         )}
-
         <Box sx={FilterButtonContainerSx}>
-          <MyButton
-            variant={filter === "all" ? "contained" : "text"}
-            color="secondary"
-            onClick={onAllClickHandler}
-            title="All"
-          />
-          <MyButton
-            variant={filter === "active" ? "contained" : "text"}
-            color="error"
-            onClick={onActiveClickHandler}
-            title="Active"
-          />
-          <MyButton
+          <Button variant={filter === "all" ? "contained" : "text"} color="secondary" onClick={onAllClickHandler}>
+            All
+          </Button>
+          <Button variant={filter === "active" ? "contained" : "text"} color="error" onClick={onActiveClickHandler}>
+            Active
+          </Button>
+          <Button
             variant={filter === "completed" ? "contained" : "text"}
             color="primary"
             onClick={onCompletedClickHandler}
-            title="Completed"
-          />
+          >
+            Completed
+          </Button>
         </Box>
       </div>
     );
   },
 );
-
-type MyButtonPropsType = {} & ButtonProps;
-
-const MyButton = memo(({ variant, color, onClick, title }: MyButtonPropsType) => {
-  return (
-    <Button variant={variant} color={color} onClick={onClick}>
-      {title}
-    </Button>
-  );
-});

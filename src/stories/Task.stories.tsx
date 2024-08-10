@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Task } from "features/TodolistPage/Todolist/Task/Task";
+import { Task } from "features/TodolistPage/ui/Todolist/Task/Task";
 import { fn } from "@storybook/test";
 import { useState } from "react";
 import { TaskPriorities, TaskStatuses } from "common/enum";

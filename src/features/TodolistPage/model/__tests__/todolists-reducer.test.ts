@@ -6,7 +6,7 @@ import {
   TodolistDomainType,
   todolistsActions,
   todolistsReducer,
-} from "features/TodolistPage/Todolist/todolistsSlice";
+} from "features/TodolistPage/model/todolistsSlice";
 import { v1 } from "uuid";
 import { Action } from "common/types";
 

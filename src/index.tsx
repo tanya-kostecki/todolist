@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { store } from "app/store";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { Login } from "features/login/ui/Login";
-import { TodolistPage } from "features/TodolistPage/TodolistPage";
+import { TodolistPage } from "features/TodolistPage/ui/TodolistPage";
 import { ErrorPage } from "features/error/ErrorPage";
 
 const router = createBrowserRouter([

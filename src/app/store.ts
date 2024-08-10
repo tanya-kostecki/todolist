@@ -1,5 +1,5 @@
-import { tasksReducer } from "features/TodolistPage/Todolist/Task/tasksSlice";
-import { todolistsReducer } from "features/TodolistPage/Todolist/todolistsSlice";
+import { tasksReducer } from "features/TodolistPage/model/tasksSlice";
+import { todolistsReducer } from "features/TodolistPage/model/todolistsSlice";
 import { UnknownAction } from "redux";
 import { ThunkDispatch } from "redux-thunk";
 import { appReducer } from "app/appSlice";

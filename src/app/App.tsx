@@ -5,29 +5,21 @@ import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import { FilterButtonContainerSx } from "features/TodolistPage/Todolist/Todolist.styles";
 import { MenuButton } from "common/components/MenuButton/MenuButton";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Switch from "@mui/material/Switch";
 import CssBaseline from "@mui/material/CssBaseline";
 import { useAppDispatch } from "app/store";
-import { TaskType } from "features/TodolistPage/Todolist/todolistApi";
 import { CircularProgress, LinearProgress } from "@mui/material";
-import { RequestStatusType, selectIsInitialized, selectStatus } from "app/appSlice";
+import { selectIsInitialized, selectStatus } from "app/appSlice";
 import { Outlet } from "react-router-dom";
 import { logout, me, selectIsLoggedIn } from "features/login/model/authSlice";
 import { useSelector } from "react-redux";
 import { CustomizedSnackbars } from "common/components";
+import { TaskType } from "features/TodolistPage/api/tasksApi.types";
+import { FilterButtonContainerSx } from "features/TodolistPage/ui/Todolist/TodoList";
 
 type ThemeMode = "dark" | "light";
-
-export type TodolistType = {
-  id: string;
-  title: string;
-  filter: FilterValuesType;
-  entityStatus: RequestStatusType;
-};
-
 export type TaskStateType = Record<string, TaskType[]>;
 export type FilterValuesType = "all" | "completed" | "active";
 
