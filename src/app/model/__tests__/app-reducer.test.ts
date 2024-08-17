@@ -1,4 +1,4 @@
-import { appActions, appReducer, RequestStatusType } from "app/appSlice";
+import { appActions, appReducer, RequestStatusType } from "app/model/appSlice";
 
 type AppInitialState = {
   error: string | null;

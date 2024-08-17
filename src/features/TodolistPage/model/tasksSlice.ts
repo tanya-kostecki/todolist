@@ -1,5 +1,5 @@
-import { TaskStateType } from "app/App";
-import { RequestStatusType } from "app/appSlice";
+import { TaskStateType } from "app/ui/App";
+import { RequestStatusType } from "app/model/appSlice";
 import { createAppAsyncThunk } from "common/utils";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {

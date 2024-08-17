@@ -5,8 +5,9 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { EditableSpan } from "common/components";
 import { TaskStatuses } from "common/enum";
 import { TaskType } from "features/TodolistPage/api/tasksApi.types";
-import { useAppDispatch } from "app/store";
+import { useAppDispatch } from "app/model/store";
 import { deleteTask, updateTask } from "features/TodolistPage/model/tasksSlice";
+import s from "./Task.module.css";
 
 type Props = {
   task: TaskType;
@@ -32,7 +33,7 @@ export const Task = ({ task, disabled }: Props) => {
   let isDisabled = disabled || task.entityStatus === "loading";
 
   return (
-    <div className={checked ? "is-done" : ""}>
+    <div className={checked ? s.isDone : ""}>
       <Checkbox checked={checked} onChange={changeTaskStatusHandler} disabled={isDisabled} />
       <EditableSpan oldTitle={task.title} updateTitle={updateTaskTitleHandler} disabled={isDisabled} />
       <IconButton

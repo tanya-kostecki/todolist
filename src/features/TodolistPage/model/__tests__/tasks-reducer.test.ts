@@ -1,5 +1,5 @@
 import { addTask, deleteTask, fetchTasks, tasksReducer, updateTask } from "features/TodolistPage/model/tasksSlice";
-import { TaskStateType } from "app/App";
+import { TaskStateType } from "app/ui/App";
 import { addTodolist, deleteTodolist } from "features/TodolistPage/model/todolistsSlice";
 import { Action } from "common/types";
 import { TaskPriorities, TaskStatuses } from "common/enum";

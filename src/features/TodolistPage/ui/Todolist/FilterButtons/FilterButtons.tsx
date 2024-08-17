@@ -2,9 +2,9 @@ import React from "react";
 import Button from "@mui/material/Button";
 import { Box } from "@mui/material";
 import { FilterButtonContainerSx } from "features/TodolistPage/ui/Todolist/TodoList";
-import { FilterValuesType } from "app/App";
+import { FilterValuesType } from "app/ui/App";
 import { TodolistDomainType, todolistsActions } from "features/TodolistPage/model/todolistsSlice";
-import { useAppDispatch } from "app/store";
+import { useAppDispatch } from "app/model/store";
 
 type Props = {
   todolist: TodolistDomainType;

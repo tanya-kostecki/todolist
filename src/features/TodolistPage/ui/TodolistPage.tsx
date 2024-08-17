@@ -2,7 +2,7 @@ import * as React from "react";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import { TodoList } from "features/TodolistPage/ui/Todolist/TodoList";
-import { AppRootStateType, useAppDispatch } from "app/store";
+import { AppRootStateType, useAppDispatch } from "app/model/store";
 import { useCallback, useEffect } from "react";
 import {
   addTodolist,

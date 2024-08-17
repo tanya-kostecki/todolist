@@ -1,6 +1,6 @@
-import { FilterValuesType } from "app/App";
+import { FilterValuesType } from "app/ui/App";
 import { todolistApi } from "features/TodolistPage/api/todolistApi";
-import { RequestStatusType } from "app/appSlice";
+import { RequestStatusType } from "app/model/appSlice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchTasks } from "features/TodolistPage/model/tasksSlice";
 import { createAppAsyncThunk } from "common/utils";

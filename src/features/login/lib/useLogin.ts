@@ -1,4 +1,4 @@
-import { AppRootStateType, useAppDispatch } from "app/store";
+import { AppRootStateType, useAppDispatch } from "app/model/store";
 import { useSelector } from "react-redux";
 import { login, selectIsLoggedIn } from "features/login/model/authSlice";
 import { useFormik } from "formik";

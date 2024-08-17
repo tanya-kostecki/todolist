@@ -1,6 +1,6 @@
 import { UpdateDomainTaskModelType } from "features/TodolistPage/model/tasksSlice";
 import { TaskPriorities, TaskStatuses } from "common/enum";
-import { RequestStatusType } from "app/appSlice";
+import { RequestStatusType } from "app/model/appSlice";
 
 export type CreateTaskArgs = {
   todolistId: string;

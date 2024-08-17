@@ -1,6 +1,6 @@
 import { createAppAsyncThunk } from "common/utils";
 import { createSlice, isFulfilled, PayloadAction } from "@reduxjs/toolkit";
-import { appActions } from "app/appSlice";
+import { appActions } from "app/model/appSlice";
 import { todolistsActions } from "features/TodolistPage/model/todolistsSlice";
 import { authAPI } from "features/login/api/authApi";
 import { ResultCode } from "common/enum";
@@ -76,3 +76,4 @@ export const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>(
 
 export const authReducer = slice.reducer;
 export const { selectIsLoggedIn } = slice.selectors;
+export const {} = slice.actions;

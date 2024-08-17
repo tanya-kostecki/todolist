@@ -41,13 +41,6 @@ const slice = createSlice({
           return isRejected(action) && action.payload;
         },
         (state, action: PayloadAction<RejectActionError>) => {
-          // if (
-          //   action.type === addTodolist.rejected.type ||
-          //   action.type === addTask.rejected.type ||
-          //   action.type === me.rejected.type
-          // )
-          //   return;
-
           if (
             (action.type === addTodolist.rejected.type && action.payload.type === "appError") ||
             (action.type === addTask.rejected.type && action.payload.type === "appError") ||

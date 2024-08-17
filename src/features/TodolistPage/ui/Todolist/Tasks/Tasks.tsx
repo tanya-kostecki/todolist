@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
 import List from "@mui/material/List";
 import { Task } from "features/TodolistPage/ui/Todolist/Tasks/Task/Task";
-import { TaskStateType } from "app/App";
+import { TaskStateType } from "app/ui/App";
 import { TodolistDomainType } from "features/TodolistPage/model/todolistsSlice";
 import { useSelector } from "react-redux";
-import { AppRootStateType } from "app/store";
+import { AppRootStateType } from "app/model/store";
 import { selectTasks } from "features/TodolistPage/model/tasksSlice";
 
 type Props = {

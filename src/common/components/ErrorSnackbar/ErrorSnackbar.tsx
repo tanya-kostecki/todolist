@@ -1,9 +1,9 @@
 import * as React from "react";
 import Snackbar from "@mui/material/Snackbar";
 import Alert from "@mui/material/Alert";
-import { useAppDispatch } from "app/store";
+import { useAppDispatch } from "app/model/store";
 import { useSelector } from "react-redux";
-import { appActions, selectError } from "app/appSlice";
+import { appActions, selectError } from "app/model/appSlice";
 
 export const CustomizedSnackbars = () => {
   const error = useSelector(selectError);

@@ -1,4 +1,4 @@
-import { TaskStateType } from "app/App";
+import { TaskStateType } from "app/ui/App";
 import { addTodolist, TodolistDomainType } from "features/TodolistPage/model/todolistsSlice";
 import { tasksReducer } from "features/TodolistPage/model/tasksSlice";
 import { todolistsReducer } from "features/TodolistPage/model/todolistsSlice";

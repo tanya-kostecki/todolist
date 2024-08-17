@@ -3,7 +3,7 @@ import { SxProps } from "@mui/material";
 import { AddItemForm } from "common/components";
 import { TodolistDomainType } from "features/TodolistPage/model/todolistsSlice";
 import { addTask } from "features/TodolistPage/model/tasksSlice";
-import { useAppDispatch } from "app/store";
+import { useAppDispatch } from "app/model/store";
 import { Tasks } from "features/TodolistPage/ui/Todolist/Tasks/Tasks";
 import { FilterButtons } from "features/TodolistPage/ui/Todolist/FilterButtons/FilterButtons";
 import { TodolistTitle } from "features/TodolistPage/ui/Todolist/TodolistTitle/TodolistTitle";
