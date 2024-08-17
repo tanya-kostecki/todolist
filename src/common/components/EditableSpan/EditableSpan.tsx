@@ -1,17 +1,17 @@
 import React, { ChangeEvent, memo, useState } from "react";
 import TextField from "@mui/material/TextField";
 
-type EditableSpanProps = {
+type Props = {
   oldTitle: string;
   updateTitle: (newTitle: string) => void;
   disabled?: boolean;
 };
-export const EditableSpan = memo((props: EditableSpanProps) => {
+export const EditableSpan = ({ oldTitle, updateTitle, disabled}: Props) => {
   const [editable, setEditable] = useState(false);
-  const [newTitle, setNewTitle] = useState(props.oldTitle);
+  const [newTitle, setNewTitle] = useState(oldTitle);
 
   const editHandler = () => {
-    if (!props.disabled) {
+    if (!disabled) {
       setEditable(!editable);
       if (editable) {
         updateTitleHandler();
@@ -24,7 +24,7 @@ export const EditableSpan = memo((props: EditableSpanProps) => {
   };
 
   const updateTitleHandler = () => {
-    props.updateTitle(newTitle.trim());
+    updateTitle(newTitle.trim());
   };
 
   return editable ? (
@@ -38,6 +38,6 @@ export const EditableSpan = memo((props: EditableSpanProps) => {
       autoFocus
     />
   ) : (
-    <span onDoubleClick={editHandler}>{props.oldTitle}</span>
+    <span onDoubleClick={editHandler}>{oldTitle}</span>
   );
-});
+};

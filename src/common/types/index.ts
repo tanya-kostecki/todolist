@@ -1,1 +1,1 @@
-export type { Action, ResponseType as BaseResponse } from "./types";
+export type { Action, BaseResponse, RejectActionError, RejectAppError, RejectCatchError } from "./types";

@@ -27,7 +27,7 @@ export const TodolistPage = () => {
 
   const addTodolistHandler = useCallback(
     (title: string) => {
-      dispatch(addTodolist(title));
+      return dispatch(addTodolist(title));
     },
     [dispatch],
   );

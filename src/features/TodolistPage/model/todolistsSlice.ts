@@ -3,7 +3,7 @@ import { todolistApi } from "features/TodolistPage/api/todolistApi";
 import { RequestStatusType } from "app/appSlice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchTasks } from "features/TodolistPage/model/tasksSlice";
-import { createAppAsyncThunk, handleAppError, thunkTryCatch } from "common/utils";
+import { createAppAsyncThunk } from "common/utils";
 import { ResultCode } from "common/enum";
 import { ChangeTodolistTitleArgs, TodolistType } from "features/TodolistPage/api/todolistApi.types";
 
@@ -51,58 +51,74 @@ const slice = createSlice({
 });
 
 //thunk creators
-export const fetchTodolists = createAppAsyncThunk<{ todolists: TodolistType[] }>(
+export const fetchTodolists = createAppAsyncThunk<{ todolists: TodolistType[] }, void>(
   `${slice.name}/fetchTodolists`,
-  (_, thunkAPI) => {
-    const { dispatch } = thunkAPI;
-    return thunkTryCatch(thunkAPI, async () => {
+  async (_, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    try {
       const res = await todolistApi.getTodolists();
       res.data.forEach((todo) => dispatch(fetchTasks(todo.id)));
       return { todolists: res.data };
-    });
+    } catch (error) {
+      return rejectWithValue({ error, type: "catchError" });
+    }
   },
 );
 
 export const deleteTodolist = createAppAsyncThunk<{ todolistId: string }, { todolistId: string }>(
   `${slice.name}/deleteTodolist`,
-  (arg, thunkAPI) => {
+  async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
-    return thunkTryCatch(thunkAPI, async () => {
+    try {
       dispatch(todolistsActions.changeEntityStatus({ todolistId: arg.todolistId, entityStatus: "loading" }));
       const res = await todolistApi.deleteTodolist(arg.todolistId);
-      dispatch(todolistsActions.changeEntityStatus({ todolistId: arg.todolistId, entityStatus: "succeeded" }));
-      return { todolistId: arg.todolistId };
-    });
+      if (res.data.resultCode === ResultCode.success) {
+        dispatch(todolistsActions.changeEntityStatus({ todolistId: arg.todolistId, entityStatus: "succeeded" }));
+        return { todolistId: arg.todolistId };
+      } else {
+        return rejectWithValue({ error: res.data, type: "appError" });
+      }
+    } catch (error) {
+      return rejectWithValue({ error, type: "catchError" });
+    }
   },
 );
 
 export const addTodolist = createAppAsyncThunk<{ todolist: TodolistType }, string>(
   `${slice.name}/addTodolist`,
-  (arg, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI;
-    return thunkTryCatch(thunkAPI, async () => {
+  async (arg, thunkAPI) => {
+    const { rejectWithValue } = thunkAPI;
+    try {
       const res = await todolistApi.createTodolist(arg);
       if (res.data.resultCode === ResultCode.success) {
         return { todolist: res.data.data.item };
       } else {
-        handleAppError(dispatch, res.data);
-        return rejectWithValue(null);
+        return rejectWithValue({ error: res.data, type: "appError" });
       }
-    });
+    } catch (error) {
+      return rejectWithValue({ error, type: "catchError" });
+    }
   },
 );
 
 export const changeTodolistTitle = createAppAsyncThunk<ChangeTodolistTitleArgs, ChangeTodolistTitleArgs>(
   `${slice.name}/changeTodolistTitle`,
-  (arg, thunkAPI) => {
-    const { dispatch } = thunkAPI;
+  async (arg, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI;
     const { todolistId, title } = arg;
-    return thunkTryCatch(thunkAPI, async () => {
+    try {
       dispatch(todolistsActions.changeEntityStatus({ todolistId, entityStatus: "loading" }));
       const res = await todolistApi.updateTodolist(todolistId, title);
-      dispatch(todolistsActions.changeEntityStatus({ todolistId, entityStatus: "succeeded" }));
-      return { todolistId, title };
-    });
+      if (res.data.resultCode === ResultCode.success) {
+        dispatch(todolistsActions.changeEntityStatus({ todolistId, entityStatus: "succeeded" }));
+        return { todolistId, title };
+      } else {
+        dispatch(todolistsActions.changeEntityStatus({ todolistId, entityStatus: "failed" }));
+        return rejectWithValue({ error: res.data, type: "appError" });
+      }
+    } catch (error) {
+      return rejectWithValue({ error, type: "catchError" });
+    }
   },
 );
 

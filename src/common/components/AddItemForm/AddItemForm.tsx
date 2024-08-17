@@ -2,21 +2,28 @@ import React, { useState, ChangeEvent, KeyboardEvent, memo } from "react";
 import TextField from "@mui/material/TextField";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { RejectActionError } from "common/types";
 
-export type AddItemFormProps = {
-  addItem: (title: string) => void;
+type Props = {
+  addItem: (title: string) => Promise<any>;
   disabled?: boolean;
 };
-export const AddItemForm = memo((props: AddItemFormProps) => {
-  // console.log('AddItemForm')
+export const AddItemForm = memo(({ addItem, disabled }: Props) => {
   const [newTaskTitle, setNewTaskTitle] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
   const addItemHandler = () => {
     const trimmedTitle = newTaskTitle.trim();
     if (trimmedTitle !== "") {
-      props.addItem(trimmedTitle);
-      setNewTaskTitle("");
+      addItem(trimmedTitle)
+        .then(unwrapResult)
+        .then(() => setNewTaskTitle(""))
+        .catch((error: RejectActionError) => {
+          if (error.type === "appError") {
+            setError(error.error?.messages[0]);
+          }
+        });
     } else {
       setError("Title is required");
     }
@@ -43,9 +50,9 @@ export const AddItemForm = memo((props: AddItemFormProps) => {
         onChange={changeTaskTitle}
         onKeyUp={addItemOnEnterHandler}
         helperText={error}
-        disabled={props.disabled}
+        disabled={disabled}
       />
-      <IconButton onClick={addItemHandler} color={"primary"} disabled={props.disabled}>
+      <IconButton onClick={addItemHandler} color={"primary"} disabled={disabled}>
         <AddBoxIcon />
       </IconButton>
     </div>

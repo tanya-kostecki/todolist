@@ -18,7 +18,7 @@ export const TodoList = ({ todolist }: Props) => {
   const dispatch = useAppDispatch();
 
   const addTaskHandler = (title: string) => {
-    dispatch(addTask({ todolistId: todolist.id, title }));
+    return dispatch(addTask({ todolistId: todolist.id, title }));
   };
 
   return (

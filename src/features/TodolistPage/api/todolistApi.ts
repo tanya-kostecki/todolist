@@ -13,6 +13,6 @@ export const todolistApi = {
     return instance.delete<BaseResponse>(`todo-lists/${id}`);
   },
   updateTodolist(id: string, title: string) {
-    return instance.put<BaseResponse, { title: string }>(`todo-lists/${id}`, { title });
+    return instance.put<BaseResponse<{ title: string }>>(`todo-lists/${id}`, { title });
   },
 };

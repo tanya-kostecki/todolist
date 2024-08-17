@@ -1,4 +1,4 @@
-import { AddItemForm, AddItemFormProps } from "common/components/AddItemForm/AddItemForm";
+import { AddItemForm } from "common/components/AddItemForm/AddItemForm";
 import { Meta, StoryObj } from "@storybook/react";
 import { fn } from "@storybook/test";
 import React, { ChangeEvent, KeyboardEvent, useState } from "react";
@@ -26,7 +26,11 @@ type Story = StoryObj<typeof AddItemForm>;
 
 export const AddItemFormStory: Story = {};
 
-export const AddItemFormErrorStory = (props: AddItemFormProps) => {
+type Props = {
+  addItem: (title: string) => void;
+  disabled?: boolean;
+};
+export const AddItemFormErrorStory = (props: Props) => {
   const [newTaskTitle, setNewTaskTitle] = useState<string>("");
   const [error, setError] = useState<string | null>("Title is required");
 
