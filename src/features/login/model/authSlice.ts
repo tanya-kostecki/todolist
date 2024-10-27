@@ -10,15 +10,21 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     isLoggedIn: false,
+    captcha: "",
   },
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(getCaptcha.fulfilled, (state, action) => {
+      state.captcha = action.payload.url;
+    });
     builder.addMatcher(isFulfilled(login, logout, me), (state, action: PayloadAction<{ isLoggedIn: boolean }>) => {
       state.isLoggedIn = action.payload.isLoggedIn;
+      state.captcha = "";
     });
   },
   selectors: {
-    selectIsLoggedIn: (sliceState) => sliceState.isLoggedIn,
+    selectIsLoggedIn: (state) => state.isLoggedIn,
+    selectCaptcha: (state) => state.captcha,
   },
 });
 
@@ -26,12 +32,15 @@ const slice = createSlice({
 export const login = createAppAsyncThunk<{ isLoggedIn: boolean }, LoginParamsType>(
   `${slice.name}/login`,
   async (arg, thunkApi) => {
-    const { rejectWithValue } = thunkApi;
+    const { dispatch, rejectWithValue } = thunkApi;
     try {
       const res = await authAPI.login(arg);
       if (res.data.resultCode === ResultCode.success) {
         return { isLoggedIn: true };
       } else {
+        if (res.data.resultCode === ResultCode.captcha) {
+          await dispatch(getCaptcha());
+        }
         return rejectWithValue({ error: res.data, type: "appError" });
       }
     } catch (error) {
@@ -74,6 +83,19 @@ export const logout = createAppAsyncThunk<{ isLoggedIn: boolean }, undefined>(
   },
 );
 
+export const getCaptcha = createAppAsyncThunk<{ url: string }, undefined>(
+  `${slice.name}/getCaptcha`,
+  async (_, thunkApi) => {
+    const { rejectWithValue } = thunkApi;
+    try {
+      const res = await authAPI.getCaptcha();
+      return { url: res.data.url };
+    } catch (error) {
+      return rejectWithValue({ error, type: "catchError" });
+    }
+  },
+);
+
 export const authReducer = slice.reducer;
-export const { selectIsLoggedIn } = slice.selectors;
+export const { selectIsLoggedIn, selectCaptcha } = slice.selectors;
 export const {} = slice.actions;

@@ -12,4 +12,7 @@ export const authAPI = {
   logout() {
     return instance.delete<BaseResponse<{ userId: number }>>("auth/login");
   },
+  getCaptcha() {
+    return instance.get<{ url: string }>("/security/get-captcha-url");
+  },
 };

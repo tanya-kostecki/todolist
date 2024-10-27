@@ -11,7 +11,7 @@ import { Navigate } from "react-router-dom";
 import { useLogin } from "features/login/lib/useLogin";
 
 export const Login = () => {
-  const { formik, isLoggedIn } = useLogin();
+  const { formik, isLoggedIn, captcha } = useLogin();
 
   if (isLoggedIn) return <Navigate to="/todolists" />;
 
@@ -23,7 +23,7 @@ export const Login = () => {
             <FormLabel>
               <p>
                 To log in get registered
-                <a href={"https://social-network.samuraijs.com/"} target={"_blank"}>
+                <a href={"https://social-network.samuraijs.com/"} target={"_blank"} rel="noopener noreferrer">
                   here
                 </a>
               </p>
@@ -49,6 +49,23 @@ export const Login = () => {
               {formik.touched.password && formik.errors.password && (
                 <div style={{ color: "red" }}>{formik.errors.password}</div>
               )}
+              {captcha && (
+                <>
+                  <img src={captcha} alt="captcha" />
+                  <TextField
+                    type="text"
+                    label="Captcha"
+                    margin="normal"
+                    onFocus={() => formik.setFieldTouched("captcha", true)}
+                    error={!!(formik.touched.captcha && formik.errors.captcha)}
+                    {...formik.getFieldProps("captcha")}
+                  />
+                  {formik.touched.captcha && formik.errors.captcha && (
+                    <div style={{ color: "red" }}>{formik.errors.captcha}</div>
+                  )}
+                </>
+              )}
+
               <FormControlLabel
                 label={"Remember me"}
                 control={<Checkbox checked={formik.values.rememberMe} {...formik.getFieldProps("rememberMe")} />}
